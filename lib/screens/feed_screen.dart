@@ -1,3 +1,4 @@
+import 'package:bookish/widgets/editorial_card.dart';
 import 'package:bookish/widgets/review_card.dart';
 import 'package:flutter/material.dart';
 
@@ -9,7 +10,7 @@ class FeedScreen extends StatelessWidget {
     return Scaffold(
       body: ListView(
        // scrollDirection: Axis.horizontal,
-        children: [ReviewCard(),],
+        children: [ReviewCard(), EditorialCard()],
       ),
     );
   }
