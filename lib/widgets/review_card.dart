@@ -2,23 +2,32 @@ import 'package:flutter/material.dart';
 
 import '../theme.dart';
 
-class ReviewCard extends StatelessWidget {
+class ReviewCard extends StatefulWidget {
   const ReviewCard({Key? key}) : super(key: key);
 
+  @override
+  _ReviewCardState createState() => _ReviewCardState();
+}
+
+class _ReviewCardState extends State<ReviewCard> {
   final String category = 'Editor\'s Choice';
   final String title = 'The Art of Dough';
   final String description = 'Learn to make the perfect bread.';
   final String chef = 'Ray Wenderlich';
+
+  bool _isFavorited = false;
+
+  void toggleFavourite() {
+    setState(() {
+      _isFavorited = !_isFavorited;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.all(8),
       padding: const EdgeInsets.all(16),
-      constraints: const BoxConstraints.expand(
-        width: 300,
-        height: 450,
-      ),
       decoration: const BoxDecoration(
         image: DecorationImage(
           image: NetworkImage(
@@ -55,14 +64,11 @@ class ReviewCard extends StatelessWidget {
                       ]),
                 ]),
                 IconButton(
-                  icon: const Icon(Icons.favorite_border),
+                  icon: Icon(
+                      _isFavorited ? Icons.favorite : Icons.favorite_border),
                   iconSize: 30,
-                  color: Colors.grey[400],
-                  onPressed: () {
-                    const snackBar =
-                        SnackBar(content: Text('Favorite Pressed'));
-                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                  },
+                  color: _isFavorited ? Colors.red[400] : Colors.grey[400],
+                  onPressed: toggleFavourite,
                 ),
               ],
             ),

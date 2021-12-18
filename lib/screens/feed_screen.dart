@@ -9,9 +9,13 @@ class FeedScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
-       // scrollDirection: Axis.horizontal,
-        children: [ReviewCard(), EditorialCard(),GenreCard()],
+      body: Container(
+        height: 450,
+        child: ListView(
+          itemExtent: MediaQuery.of(context).size.width,
+          scrollDirection: Axis.horizontal,
+          children: [ReviewCard(), EditorialCard(), GenreCard()],
+        ),
       ),
     );
   }

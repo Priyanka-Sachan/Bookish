@@ -25,10 +25,6 @@ class _GenreCardState extends State<GenreCard> {
     return Container(
       margin: const EdgeInsets.all(8),
       padding: const EdgeInsets.all(32),
-      constraints: const BoxConstraints.expand(
-        width: 300,
-        height: 450,
-      ),
       decoration: const BoxDecoration(
         image: DecorationImage(
           image: NetworkImage(

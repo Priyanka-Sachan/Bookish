@@ -15,10 +15,6 @@ class EditorialCard extends StatelessWidget {
     return Container(
         margin: const EdgeInsets.all(8),
         padding: const EdgeInsets.all(16),
-        constraints: const BoxConstraints.expand(
-          width: 300,
-          height: 450,
-        ),
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: NetworkImage(
