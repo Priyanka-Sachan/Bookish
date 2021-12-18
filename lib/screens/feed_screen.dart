@@ -1,4 +1,3 @@
-import 'package:bookish/widgets/editorial_card.dart';
 import 'package:bookish/widgets/review_card.dart';
 import 'package:flutter/material.dart';
 
