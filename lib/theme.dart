@@ -9,22 +9,32 @@ class BookishTheme {
       color: Colors.black,
     ),
     headline1: GoogleFonts.openSans(
-      fontSize: 32.0,
+      fontSize: 48.0,
       fontWeight: FontWeight.bold,
       color: Colors.black,
     ),
     headline2: GoogleFonts.openSans(
-      fontSize: 21.0,
+      fontSize: 40.0,
       fontWeight: FontWeight.w700,
       color: Colors.black,
     ),
     headline3: GoogleFonts.openSans(
-      fontSize: 16.0,
+      fontSize: 32.0,
+      fontWeight: FontWeight.w600,
+      color: Colors.black,
+    ),
+    headline4: GoogleFonts.openSans(
+      fontSize: 24.0,
+      fontWeight: FontWeight.w600,
+      color: Colors.black,
+    ),
+    headline5: GoogleFonts.openSans(
+      fontSize: 20.0,
       fontWeight: FontWeight.w600,
       color: Colors.black,
     ),
     headline6: GoogleFonts.openSans(
-      fontSize: 20.0,
+      fontSize: 16.0,
       fontWeight: FontWeight.w600,
       color: Colors.black,
     ),
@@ -37,22 +47,32 @@ class BookishTheme {
       color: Colors.white,
     ),
     headline1: GoogleFonts.openSans(
-      fontSize: 32.0,
+      fontSize: 48.0,
       fontWeight: FontWeight.bold,
       color: Colors.white,
     ),
     headline2: GoogleFonts.openSans(
-      fontSize: 21.0,
+      fontSize: 40.0,
       fontWeight: FontWeight.w700,
       color: Colors.white,
     ),
     headline3: GoogleFonts.openSans(
-      fontSize: 16.0,
+      fontSize: 32.0,
+      fontWeight: FontWeight.w600,
+      color: Colors.white,
+    ),
+    headline4: GoogleFonts.openSans(
+      fontSize: 24.0,
+      fontWeight: FontWeight.w600,
+      color: Colors.white,
+    ),
+    headline5: GoogleFonts.openSans(
+      fontSize: 20.0,
       fontWeight: FontWeight.w600,
       color: Colors.white,
     ),
     headline6: GoogleFonts.openSans(
-      fontSize: 20.0,
+      fontSize: 16.0,
       fontWeight: FontWeight.w600,
       color: Colors.white,
     ),
