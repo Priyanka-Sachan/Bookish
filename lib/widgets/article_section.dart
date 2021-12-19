@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 class ArticleSection extends StatelessWidget {
 
-  List<Article> articles = [];
+  final List<Article> articles;
   ArticleSection({required this.articles});
 
   @override

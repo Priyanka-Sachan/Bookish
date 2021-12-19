@@ -12,10 +12,6 @@ class ReviewCard extends StatefulWidget {
 }
 
 class _ReviewCardState extends State<ReviewCard> {
-  final String category = 'Editor\'s Choice';
-  final String title = 'The Art of Dough';
-  final String description = 'Learn to make the perfect bread.';
-  final String chef = 'Ray Wenderlich';
 
   bool _isFavorite = false;
 
@@ -56,11 +52,14 @@ class _ReviewCardState extends State<ReviewCard> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          chef,
+                          widget.article.message,
                           style: BookishTheme.darkTextTheme.headline5,
+                          maxLines: 1,
+                          softWrap: true,
+                          overflow:TextOverflow.ellipsis,
                         ),
                         Text(
-                          title,
+                          widget.article.authorName,
                           style: BookishTheme.darkTextTheme.bodyText1,
                         )
                       ]),

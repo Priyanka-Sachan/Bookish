@@ -13,10 +13,10 @@ class Book {
 
   factory Book.fromJson(Map<String, dynamic> json) {
     return Book(
-      id: json['id'] as String,
-      image: json['image'] as String,
-      title: json['title'] as String,
-      author: json['author'] as String,
+      id: json['id'] ?? '',
+      image: json['image'] ?? '',
+      title: json['title'] ?? '',
+      author: json['author'] ?? '',
     );
   }
 }

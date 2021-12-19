@@ -3,8 +3,8 @@ import 'package:bookish/widgets/post_card.dart';
 import 'package:flutter/material.dart';
 
 class PostSection extends StatelessWidget {
-  List<Post> posts = [];
 
+  final List<Post> posts;
   PostSection({required this.posts});
 
   @override
