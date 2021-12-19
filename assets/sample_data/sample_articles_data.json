@@ -1,0 +1,43 @@
+{
+  "articles": [
+    {
+      "id": "1",
+      "type": "editorial",
+      "title": "The Art of Dough",
+      "subtitle": "Editor's Choice",
+      "backgroundImage": "https://media.istockphoto.com/photos/good-book-can-do-the-world-of-good-picture-id1257761640?b=1&k=20&m=1257761640&s=170667a&w=0&h=TkLOhtnBo88Iw6lOZ3fPFT6ZJ-TQ388d4GVdkvRd4HE=",
+      "backgroundImageSource": "https://www.foodiesfeed.com/free-food-photo/baker-with-wheat-flour/",
+      "message": "Learn to make the perfect bread.",
+      "authorName": "Ray Wenderlich",
+      "authorImage": "https://avatars.githubusercontent.com/u/56231576",
+      "tags": ["Carbs", "Dough", "Crunchy", "Yummy"],
+      "description": "food made of flour, water, and yeast or another leavening agent, mixed together and baked: a loaf of bread"
+    },
+    {
+      "id": "2",
+      "type": "review",
+      "title": "Recipe",
+      "subtitle": "Smoothies",
+      "backgroundImage": "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f",
+      "backgroundImageSource": "https://www.foodiesfeed.com/free-food-photo/peanut-butter-and-banana-smoothie/",
+      "message": "Much Tasty, Wow Smooth, Oh Nutty",
+      "authorName": "Mike Katz",
+      "authorImage": "https://avatars.githubusercontent.com/u/56231576",
+      "tags": ["Drink", "Nuts", "Smooth", "Energy"],
+      "description": "a thick, smooth drink of fresh fruit pureed with milk, yogurt, or ice cream."
+    },
+    {
+      "id": "3",
+      "type": "review",
+      "title": "Delicious Salad",
+      "subtitle": "Healthy Foods",
+      "backgroundImage": "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f",
+      "backgroundImageSource": "https://www.foodiesfeed.com/free-food-photo/green-salad-with-bread/",
+      "message": "Learn how to make a killer salad",
+      "authorName": "Kevin Moore",
+      "authorImage": "https://avatars.githubusercontent.com/u/56231576",
+      "tags": ["Healthy", "Salads", "Lunch"],
+      "description": "a cold dish of various mixtures of raw or cooked vegetables, usually seasoned with oil, vinegar, or other dressing and sometimes accompanied by meat, fish, or other ingredients: a green salad"
+    }
+  ]
+}

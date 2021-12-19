@@ -1,9 +1,11 @@
+import 'package:bookish/models/article.dart';
 import 'package:flutter/material.dart';
 
 import '../theme.dart';
 
 class ReviewCard extends StatefulWidget {
-  const ReviewCard({Key? key}) : super(key: key);
+  final Article article;
+  ReviewCard({required this.article});
 
   @override
   _ReviewCardState createState() => _ReviewCardState();
@@ -15,11 +17,11 @@ class _ReviewCardState extends State<ReviewCard> {
   final String description = 'Learn to make the perfect bread.';
   final String chef = 'Ray Wenderlich';
 
-  bool _isFavorited = false;
+  bool _isFavorite = false;
 
   void toggleFavourite() {
     setState(() {
-      _isFavorited = !_isFavorited;
+      _isFavorite = !_isFavorite;
     });
   }
 
@@ -28,10 +30,10 @@ class _ReviewCardState extends State<ReviewCard> {
     return Container(
       margin: const EdgeInsets.all(8),
       padding: const EdgeInsets.all(16),
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         image: DecorationImage(
           image: NetworkImage(
-              'https://images.unsplash.com/photo-1513001900722-370f803f498d'),
+             widget.article.backgroundImage),
           fit: BoxFit.cover,
           colorFilter: ColorFilter.mode(Colors.black87, BlendMode.softLight),
         ),
@@ -46,7 +48,7 @@ class _ReviewCardState extends State<ReviewCard> {
                 Row(children: [
                   CircleAvatar(
                     backgroundImage: NetworkImage(
-                        'https://avatars.githubusercontent.com/u/56231576'),
+                        widget.article.authorImage),
                     radius: 28,
                   ),
                   const SizedBox(width: 8),
@@ -65,9 +67,9 @@ class _ReviewCardState extends State<ReviewCard> {
                 ]),
                 IconButton(
                   icon: Icon(
-                      _isFavorited ? Icons.favorite : Icons.favorite_border),
+                      _isFavorite ? Icons.favorite : Icons.favorite_border),
                   iconSize: 30,
-                  color: _isFavorited ? Colors.red[400] : Colors.grey[400],
+                  color: _isFavorite ? Colors.red[400] : Colors.grey[400],
                   onPressed: toggleFavourite,
                 ),
               ],
@@ -79,7 +81,7 @@ class _ReviewCardState extends State<ReviewCard> {
                 bottom: 16,
                 right: 16,
                 child: Text(
-                  'Recipe',
+                  widget.article.title,
                   style: BookishTheme.darkTextTheme.headline3,
                 ),
               ),
@@ -89,7 +91,7 @@ class _ReviewCardState extends State<ReviewCard> {
                 child: RotatedBox(
                   quarterTurns: 3,
                   child: Text(
-                    'Smoothies',
+                    widget.article.type,
                     style: BookishTheme.darkTextTheme.headline3,
                   ),
                 ),

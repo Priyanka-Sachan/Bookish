@@ -1,0 +1,52 @@
+{
+  "books": [
+    {
+      "id": "rec1",
+      "image": "assets/food_pics/food_salmon.jpg",
+      "title": "Smoked Salmon",
+      "author": "30 mins"
+    },
+    {
+      "id": "rec2",
+      "image": "assets/food_pics/food_cupcake.jpg",
+      "title": "Chocolate Cup Cake",
+      "author": "1 hour"
+    },
+    {
+      "id": "rec3",
+      "image": "assets/food_pics/food_pancake.jpg",
+      "title": "Rasberry Maple Pancake",
+      "author": "30 mins"
+    },
+    {
+      "id": "rec4",
+      "image": "assets/food_pics/food_spaghetti.jpg",
+      "title": "Seafood Spaghetti",
+      "author": "50 mins"
+    },
+    {
+      "id": "rec5",
+      "image": "assets/food_pics/food_friedrice.jpg",
+      "title": "Thai Fried Rice",
+      "author": "35 mins"
+    },
+    {
+      "id": "rec6",
+      "image": "assets/food_pics/food_curry.jpg",
+      "title": "Thai Green Curry",
+      "author": "1 hour"
+    },
+    {
+      "id": "rec7",
+      "image": "assets/food_pics/food_pho.jpg",
+      "title": "Vietnamese Pho",
+      "duration": "1 hour"
+    },
+    {
+      "id": "rec8",
+      "image": "assets/food_pics/food_burger.jpg",
+      "title": "Bacon Cheese Burger",
+      "author": "30 min"
+    }
+  ]
+}
