@@ -34,11 +34,11 @@ class YourArticleSection extends StatelessWidget {
                             onCreate: (item) {
                               manager.addItem(item);
                             },
-                            onUpdate: (item) {
-                              manager.updateItem(item, i);
+                            onUpdate: (id,item) {
+                              manager.updateItem(id,item);
                             },
-                            onUpload: (item) {
-                              manager.uploadItem(item);
+                            onUpload: (id) {
+                              manager.uploadItem(id);
                             },
                             originalItem: yourArticles[i],
                           ),

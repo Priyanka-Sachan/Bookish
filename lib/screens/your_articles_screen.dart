@@ -27,9 +27,11 @@ class _YourArticlesScreenState extends State<YourArticlesScreen> {
                   onCreate: (item) {
                     manager.addItem(item);
                   },
-                  onUpdate: (item) {},
-                  onUpload: (item) {
-                    manager.uploadItem(item);
+                  onUpdate: (id,item) {
+                    manager.updateItem(id, item);
+                  },
+                  onUpload: (id) {
+                    manager.uploadItem(id);
                   },
                 ),
               ),

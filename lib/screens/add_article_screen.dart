@@ -6,8 +6,8 @@ import 'package:uuid/uuid.dart';
 
 class AddArticleScreen extends StatefulWidget {
   final Function(YourArticle) onCreate;
-  final Function(YourArticle) onUpdate;
-  final Function(YourArticle) onUpload;
+  final Function(String, YourArticle) onUpdate;
+  final Function(String) onUpload;
   final YourArticle? originalItem;
   bool isUpdating;
 
@@ -91,7 +91,7 @@ class _AddArticleScreenState extends State<AddArticleScreen> {
     super.initState();
   }
 
-  saveArticle() {
+  YourArticle getArticle() {
     Article article = Article(
         id: _id,
         type: _type,
@@ -103,10 +103,16 @@ class _AddArticleScreenState extends State<AddArticleScreen> {
         authorImage: _authorImage,
         tags: _tags,
         body: _body,
-        timeStamp: _timeStamp);
-    YourArticle yourArticle = YourArticle(article: article, isUploaded: false);
+        timeStamp: DateTime.now());
+    YourArticle yourArticle =
+        YourArticle(article: article, isUploaded: _isUploaded);
+    return yourArticle;
+  }
+
+  saveArticle() {
+    YourArticle yourArticle = getArticle();
     if (widget.isUpdating)
-      widget.onUpdate(yourArticle);
+      widget.onUpdate(_id, yourArticle);
     else {
       widget.onCreate(yourArticle);
       widget.isUpdating = true;
@@ -114,26 +120,13 @@ class _AddArticleScreenState extends State<AddArticleScreen> {
   }
 
   uploadArticle() {
-    //Possible bugs in upload...
-    Article article = Article(
-        id: _id,
-        type: _type,
-        title: _title,
-        subtitle: _subtitle,
-        backgroundImage: _backgroundImage,
-        message: _message,
-        authorName: _authorName,
-        authorImage: _authorImage,
-        tags: _tags,
-        body: _body,
-        timeStamp: _timeStamp);
-    YourArticle yourArticle =
-        YourArticle(article: article, isUploaded: _isUploaded);
+    YourArticle yourArticle = getArticle();
     if (!widget.isUpdating) {
       widget.onCreate(yourArticle);
       widget.isUpdating = true;
     }
-    widget.onUpload(yourArticle);
+    widget.onUpdate(_id, yourArticle);
+    widget.onUpload(_id);
     _isUploaded = true;
   }
 
