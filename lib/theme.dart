@@ -81,6 +81,11 @@ class BookishTheme {
   static ThemeData light() {
     return ThemeData(
       brightness: Brightness.light,
+      colorScheme: ColorScheme.light(
+          primary: Color(0xfff9a826),
+          primaryVariant: Color(0xfff9a826),
+          secondary: Colors.black,
+          secondaryVariant: Colors.black),
       checkboxTheme: CheckboxThemeData(
         fillColor: MaterialStateColor.resolveWith(
           (states) {
@@ -97,7 +102,7 @@ class BookishTheme {
         backgroundColor: Colors.black,
       ),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-        selectedItemColor: Colors.green,
+        selectedItemColor: Colors.black,
       ),
       textTheme: lightTextTheme,
     );
@@ -106,16 +111,21 @@ class BookishTheme {
   static ThemeData dark() {
     return ThemeData(
       brightness: Brightness.dark,
+      colorScheme: ColorScheme.light(
+          primary: Color(0xfff9a826),
+          primaryVariant: Color(0xfff9a826),
+          secondary: Colors.white,
+          secondaryVariant: Colors.white),
       appBarTheme: AppBarTheme(
         foregroundColor: Colors.white,
         backgroundColor: Colors.grey[900],
       ),
       floatingActionButtonTheme: const FloatingActionButtonThemeData(
-        foregroundColor: Colors.white,
-        backgroundColor: Colors.green,
+        foregroundColor: Colors.black,
+        backgroundColor: Colors.white,
       ),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-        selectedItemColor: Colors.green,
+        selectedItemColor: Colors.white,
       ),
       textTheme: darkTextTheme,
     );

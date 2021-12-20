@@ -37,7 +37,7 @@ class EditorialCard extends StatelessWidget {
           ),
           Positioned(
             child: Text(
-              article.description,
+              article.message,
               style: BookishTheme.darkTextTheme.bodyText1,
             ),
             bottom: 30,
