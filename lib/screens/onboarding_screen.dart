@@ -1,6 +1,8 @@
 import 'package:bookish/models/bookish_pages.dart';
 import 'package:bookish/providers/app_state_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -27,7 +29,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
         elevation: 0.0,
         title: const Text('Getting Started'),
         leading: GestureDetector(
@@ -59,7 +60,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         MaterialButton(
           child: const Text('Skip'),
           onPressed: () {
-            Provider.of<AppStateProvider>(context, listen: false).completeOnboarding();
+            Provider.of<AppStateProvider>(context, listen: false)
+                .completeOnboarding();
           },
         ),
       ],
@@ -71,22 +73,22 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       controller: controller,
       children: [
         onboardPageView(
-          const AssetImage('assets/images/bs1.png'),
+          'assets/images/os1.svg',
           'Check out weekly recommended books and what your friends are reading!',
         ),
         onboardPageView(
-          const AssetImage('assets/images/bs2.png'),
+          'assets/images/os2.svg',
           'Read with comfort of mobile and feeling of home!',
         ),
         onboardPageView(
-          const AssetImage('assets/images/bs3.png'),
+          'assets/images/os3.svg',
           'Keep track of what you need to read',
         ),
       ],
     );
   }
 
-  Widget onboardPageView(ImageProvider imageProvider, String text) {
+  Widget onboardPageView(String svgAsset, String text) {
     return Padding(
       padding: const EdgeInsets.all(40),
       child: Column(
@@ -94,9 +96,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Expanded(
-            child: Image(
+            child: SvgPicture.asset(
+              svgAsset,
               fit: BoxFit.fitWidth,
-              image: imageProvider,
             ),
           ),
           const SizedBox(height: 16),
