@@ -39,6 +39,12 @@ class _HomeState extends State<Home> {
   ];
 
   @override
+  void initState() {
+    Provider.of<ProfileProvider>(context, listen: false).fetchUser();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Consumer<AppStateProvider>(builder: (context, provider, child) {
       return Scaffold(

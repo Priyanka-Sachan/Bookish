@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:bookish/models/user.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class BookishTab {
   static const int feed = 0;
@@ -34,8 +36,11 @@ class AppStateProvider with ChangeNotifier {
     );
   }
 
-  void login(String username, String password) {
+  void login(String username, String password) async {
     _loggedIn = true;
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString(User.usernameKey, username);
+    prefs.setBool(User.darkModeKey, false);
     notifyListeners();
   }
 
@@ -49,7 +54,11 @@ class AppStateProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void logout() {
+  void logout() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString(User.usernameKey, '');
+    prefs.setString(User.profileImageUrlKey, '');
+    prefs.setBool(User.darkModeKey, false);
     _loggedIn = false;
     _onboardingComplete = false;
     _initialized = false;
