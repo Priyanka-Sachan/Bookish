@@ -2,15 +2,18 @@ import 'package:bookish/models/user.dart';
 import 'package:flutter/material.dart';
 
 class ProfileProvider with ChangeNotifier {
-  User _user =
-      User(username: 'Anonymous', profileImageUrl: '...', darkMode: false);
+  User _user = User(
+      username: 'Anonymous',
+      profileImageUrl:
+          "https://media.istockphoto.com/photos/good-book-can-do-the-world-of-good-picture-id1257761640?b=1&k=20&m=1257761640&s=170667a&w=0&h=TkLOhtnBo88Iw6lOZ3fPFT6ZJ-TQ388d4GVdkvRd4HE=",
+      darkMode: false);
+  bool _didSelectUser = false;
 
   User get user => _user;
 
-  set darkMode(bool darkMode) {
-    _user.darkMode = darkMode;
-    notifyListeners();
-  }
+  bool get darkMode => _user.darkMode;
+
+  bool get didSelectUser => _didSelectUser;
 
   void fetchUser() {
     _user = User(
@@ -18,6 +21,16 @@ class ProfileProvider with ChangeNotifier {
         profileImageUrl:
             "https://media.istockphoto.com/photos/good-book-can-do-the-world-of-good-picture-id1257761640?b=1&k=20&m=1257761640&s=170667a&w=0&h=TkLOhtnBo88Iw6lOZ3fPFT6ZJ-TQ388d4GVdkvRd4HE=",
         darkMode: false);
+    notifyListeners();
+  }
+
+  void tapOnProfile(bool selected) {
+    _didSelectUser = selected;
+    notifyListeners();
+  }
+
+  set darkMode(bool darkMode) {
+    _user.darkMode = darkMode;
     notifyListeners();
   }
 }

@@ -111,7 +111,7 @@ class BookishTheme {
   static ThemeData dark() {
     return ThemeData(
       brightness: Brightness.dark,
-      colorScheme: ColorScheme.light(
+      colorScheme: ColorScheme.dark(
           primary: Color(0xfff9a826),
           primaryVariant: Color(0xfff9a826),
           secondary: Colors.white,

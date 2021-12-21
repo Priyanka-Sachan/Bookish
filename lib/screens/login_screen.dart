@@ -1,7 +1,17 @@
+import 'package:bookish/models/bookish_pages.dart';
+import 'package:bookish/providers/app_state_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatelessWidget {
+  static MaterialPage page() {
+    return MaterialPage(
+      name: BookishPages.loginPath,
+      key: ValueKey(BookishPages.loginPath),
+      child: LoginScreen(),
+    );
+  }
 
   final String? username;
 
@@ -46,7 +56,12 @@ class LoginScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 16),
-            ElevatedButton(onPressed: () async {}, child: Text('Login')),
+            ElevatedButton(
+                onPressed: () async {
+                  Provider.of<AppStateProvider>(context, listen: false)
+                      .login('mockUsername', 'mockPassword');
+                },
+                child: Text('Login')),
           ],
         ),
       ),
