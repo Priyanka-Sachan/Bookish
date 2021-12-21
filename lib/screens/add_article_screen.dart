@@ -2,6 +2,7 @@ import 'package:bookish/models/article.dart';
 import 'package:bookish/models/bookish_pages.dart';
 import 'package:bookish/models/your_article.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:textfield_tags/textfield_tags.dart';
 import 'package:uuid/uuid.dart';
 
@@ -167,11 +168,10 @@ class _AddArticleScreenState extends State<AddArticleScreen> {
             onPressed: uploadArticle,
           )
         ],
-        title: Text('Bookish', style: Theme.of(context).textTheme.headline6),
       ),
       body: Container(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: ListView(
           children: [
             Row(
               children: [
@@ -225,6 +225,9 @@ class _AddArticleScreenState extends State<AddArticleScreen> {
                 )
               ],
             ),
+            SizedBox(
+              height: 16,
+            ),
             TextFormField(
               controller: _titleController,
               maxLength: 32,
@@ -235,29 +238,38 @@ class _AddArticleScreenState extends State<AddArticleScreen> {
             ),
             TextFormField(
               controller: _subtitleController,
+              minLines: 2,
+              maxLines: null,
               maxLength: 128,
               decoration: InputDecoration(
                 hintText: 'Sub-title',
                 border: OutlineInputBorder(),
               ),
             ),
-            Expanded(
-              child: TextFormField(
-                controller: _bodyController,
-                keyboardType: TextInputType.multiline,
-                maxLines: null,
-                expands: true,
-                textAlignVertical: TextAlignVertical.top,
-                decoration: InputDecoration(
-                  hintText: 'Enter your article..........',
-                  // border: OutlineInputBorder(),
-                ),
-              ),
+            TextFormField(
+              controller: _bodyController,
+              keyboardType: TextInputType.multiline,
+              minLines: 16,
+              maxLines: null,
+              textAlignVertical: TextAlignVertical.top,
+              decoration: InputDecoration(
+                  border: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                  enabledBorder: InputBorder.none,
+                  errorBorder: InputBorder.none,
+                  disabledBorder: InputBorder.none,
+                  hintText: "Enter your article..."),
             ),
             TextFieldTags(
                 initialTags: _tags,
-                textFieldStyler:
-                    TextFieldStyler(helperText: '', textFieldBorder: null),
+                textFieldStyler: TextFieldStyler(
+                    helperText: '',
+                    helperStyle:
+                        TextStyle(color: Theme.of(context).colorScheme.primary),
+                    textFieldBorder: InputBorder.none,
+                    textFieldFocusedBorder: InputBorder.none,
+                    textFieldDisabledBorder: InputBorder.none,
+                    textFieldEnabledBorder: InputBorder.none),
                 tagsStyler: TagsStyler(
                     tagPadding: const EdgeInsets.all(8.0),
                     tagDecoration: BoxDecoration(
@@ -273,21 +285,30 @@ class _AddArticleScreenState extends State<AddArticleScreen> {
                   _tags.remove(tag);
                 },
                 validator: (tag) {
-                  if (tag.length > 15) {
+                  if (tag.length > 16) {
                     return "Hey that's too long";
+                  }
+                  if (_tags.contains(tag)) {
+                    return "Tag already added";
                   }
                   return null;
                 }),
             TextFormField(
               controller: _messageController,
+              minLines: 2,
+              maxLines: null,
               maxLength: 128,
               decoration: InputDecoration(
                 hintText: 'Message',
                 border: OutlineInputBorder(),
               ),
             ),
+            SizedBox(
+              height: 16,
+            ),
             Text(
-              'Edited at $_timeStamp',
+              'Edited at ${DateFormat.yMMMd().format(_timeStamp)}',
+              textAlign: TextAlign.end,
               style: TextStyle(color: Colors.grey, fontStyle: FontStyle.italic),
             )
           ],
