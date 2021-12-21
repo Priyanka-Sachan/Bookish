@@ -15,8 +15,7 @@ class EditorialCard extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: NetworkImage(
-              article.backgroundImage),
+          image: NetworkImage(article.backgroundImage),
           fit: BoxFit.cover,
           colorFilter: ColorFilter.mode(Colors.black87, BlendMode.softLight),
         ),
@@ -39,9 +38,12 @@ class EditorialCard extends StatelessWidget {
             child: Text(
               article.message,
               style: BookishTheme.darkTextTheme.bodyText1,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.right,
             ),
-            bottom: 30,
+            left: 0,
             right: 0,
+            bottom: 30,
           ),
           Positioned(
             child: Text(
@@ -51,7 +53,8 @@ class EditorialCard extends StatelessWidget {
             bottom: 10,
             right: 0,
           ),
-        ],),
+        ],
+      ),
     );
   }
 }

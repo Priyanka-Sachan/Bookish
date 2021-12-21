@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   static MaterialPage page() {
     return MaterialPage(
       name: BookishPages.loginPath,
@@ -20,8 +20,43 @@ class LoginScreen extends StatelessWidget {
     this.username,
   }) : super(key: key);
 
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  String _username = '';
+  String _password = '';
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
+
+  void login() async {
+    //TODO:Validate username and password.
+    Provider.of<AppStateProvider>(context, listen: false)
+        .login(_username, _password);
+  }
+
+  @override
+  void initState() {
+    _usernameController.addListener(() {
+      setState(() {
+        _username = _usernameController.text;
+      });
+    });
+    _passwordController.addListener(() {
+      setState(() {
+        _password = _passwordController.text;
+      });
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _usernameController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,12 +91,7 @@ class LoginScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 16),
-            ElevatedButton(
-                onPressed: () async {
-                  Provider.of<AppStateProvider>(context, listen: false)
-                      .login('mockUsername', 'mockPassword');
-                },
-                child: Text('Login')),
+            ElevatedButton(onPressed: login, child: Text('Login')),
           ],
         ),
       ),

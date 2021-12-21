@@ -41,29 +41,31 @@ class _ReviewCardState extends State<ReviewCard> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(children: [
-                  CircleAvatar(
-                    backgroundImage: NetworkImage(
-                        widget.article.authorImage),
-                    radius: 28,
-                  ),
-                  const SizedBox(width: 8),
-                  Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          widget.article.message,
-                          style: BookishTheme.darkTextTheme.headline5,
-                          maxLines: 1,
-                          softWrap: true,
-                          overflow:TextOverflow.ellipsis,
-                        ),
-                        Text(
-                          widget.article.authorName,
-                          style: BookishTheme.darkTextTheme.bodyText1,
-                        )
-                      ]),
-                ]),
+                Flexible(
+                  child: Row(children: [
+                    CircleAvatar(
+                      backgroundImage: NetworkImage(
+                          widget.article.authorImage),
+                      radius: 28,
+                    ),
+                    const SizedBox(width: 8),
+                    Flexible(
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              widget.article.message,
+                              style: BookishTheme.darkTextTheme.headline5,
+                              overflow:TextOverflow.ellipsis,
+                            ),
+                            Text(
+                              widget.article.authorName,
+                              style: BookishTheme.darkTextTheme.bodyText1,
+                            )
+                          ]),
+                    ),
+                  ]),
+                ),
                 IconButton(
                   icon: Icon(
                       _isFavorite ? Icons.favorite : Icons.favorite_border),
