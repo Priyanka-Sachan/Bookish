@@ -1,8 +1,8 @@
-import 'package:bookish/models/book.dart';
+import 'package:bookish/network/book_model.dart';
 import 'package:flutter/material.dart';
 
 class BookThumbnail extends StatelessWidget {
-  final Book book;
+  final APIBook book;
 
   const BookThumbnail({
     Key? key,
@@ -19,7 +19,7 @@ class BookThumbnail extends StatelessWidget {
           Expanded(
             child: ClipRRect(
               child: Image.network(
-                '${book.image}',
+                '${book.formats['image/jpeg']}',
                 fit: BoxFit.cover,
                 width: MediaQuery.of(context).size.width,
                 height: 200,
@@ -34,7 +34,7 @@ class BookThumbnail extends StatelessWidget {
             style: Theme.of(context).textTheme.bodyText1,
           ),
           Text(
-            book.author,
+            book.authors[0].name,
             style: Theme.of(context).textTheme.bodyText1,
           ),
           const SizedBox(height: 12),
