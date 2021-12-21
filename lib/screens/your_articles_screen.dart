@@ -1,3 +1,5 @@
+import 'package:bookish/models/bookish_pages.dart';
+import 'package:bookish/models/your_article.dart';
 import 'package:bookish/providers/your_articles_provider.dart';
 import 'package:bookish/screens/add_article_screen.dart';
 import 'package:bookish/widgets/your_article_section.dart';
@@ -18,24 +20,25 @@ class _YourArticlesScreenState extends State<YourArticlesScreen> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
           onPressed: () {
-            final manager =
-                Provider.of<YourArticlesProvider>(context, listen: false);
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => AddArticleScreen(
-                  onCreate: (item) {
-                    manager.addItem(item);
-                  },
-                  onUpdate: (id,item) {
-                    manager.updateItem(id, item);
-                  },
-                  onUpload: (id) {
-                    manager.uploadItem(id);
-                  },
-                ),
-              ),
-            );
+            Provider.of<YourArticlesProvider>(context, listen: false).createNewItem();
+            // final manager =
+            //     Provider.of<YourArticlesProvider>(context, listen: false);
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(
+            //     builder: (context) => AddArticleScreen(
+            //       onCreate: (item) {
+            //         manager.addItem(item);
+            //       },
+            //       onUpdate: (id,item) {
+            //         manager.updateItem(id, item);
+            //       },
+            //       onUpload: (id) {
+            //         manager.uploadItem(id);
+            //       },
+            //     ),
+            //   ),
+            // );
           },
           child: Icon(Icons.add)),
       body: Consumer<YourArticlesProvider>(builder: (ctx, provider, child) {

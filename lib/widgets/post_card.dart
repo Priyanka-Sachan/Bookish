@@ -24,7 +24,7 @@ class PostCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(post.comment),
-                post.imageUrl == ''
+                post.imageUrl.isEmpty
                     ? SizedBox()
                     : Image(image: NetworkImage(post.imageUrl)),
                 Text(

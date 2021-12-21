@@ -1,8 +1,17 @@
+import 'package:bookish/models/bookish_pages.dart';
+import 'package:bookish/providers/app_state_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class OnboardingScreen extends StatefulWidget {
-  // TODO: Add OnboardingScreen MaterialPage Helper
+  static MaterialPage page() {
+    return MaterialPage(
+      name: BookishPages.onboardingPath,
+      key: ValueKey(BookishPages.onboardingPath),
+      child: const OnboardingScreen(),
+    );
+  }
 
   const OnboardingScreen({Key? key}) : super(key: key);
 
@@ -50,7 +59,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         MaterialButton(
           child: const Text('Skip'),
           onPressed: () {
-            // TODO: Onboarding -> Navigate to home
+            Provider.of<AppStateProvider>(context, listen: false).completeOnboarding();
           },
         ),
       ],

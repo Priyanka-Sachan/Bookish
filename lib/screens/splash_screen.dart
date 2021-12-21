@@ -1,8 +1,30 @@
+import 'package:bookish/models/bookish_pages.dart';
+import 'package:bookish/providers/app_state_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
-class SplashScreen extends StatelessWidget {
+class SplashScreen extends StatefulWidget {
+  static MaterialPage page() {
+    return MaterialPage(
+      name: BookishPages.splashPath,
+      key: ValueKey(BookishPages.splashPath),
+      child: const SplashScreen(),
+    );
+  }
+
   const SplashScreen({Key? key}) : super(key: key);
+
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    Provider.of<AppStateProvider>(context, listen: false).initializeApp();
+  }
 
   @override
   Widget build(BuildContext context) {

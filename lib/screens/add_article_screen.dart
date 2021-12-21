@@ -1,4 +1,5 @@
 import 'package:bookish/models/article.dart';
+import 'package:bookish/models/bookish_pages.dart';
 import 'package:bookish/models/your_article.dart';
 import 'package:flutter/material.dart';
 import 'package:textfield_tags/textfield_tags.dart';
@@ -11,12 +12,30 @@ class AddArticleScreen extends StatefulWidget {
   final YourArticle? originalItem;
   bool isUpdating;
 
+  static MaterialPage page({
+    YourArticle? originalItem,
+    required Function(YourArticle) onCreate,
+    required Function(String, YourArticle) onUpdate,
+    required Function(String) onUpload,
+  }) {
+    return MaterialPage(
+      name: BookishPages.addArticlePath,
+      key: ValueKey(BookishPages.addArticlePath),
+      child: AddArticleScreen(
+        originalItem: originalItem,
+        onCreate: onCreate,
+        onUpdate: onUpdate,
+        onUpload: onUpload,
+      ),
+    );
+  }
+
   AddArticleScreen({
     Key? key,
+    this.originalItem,
     required this.onCreate,
     required this.onUpdate,
     required this.onUpload,
-    this.originalItem,
   })  : isUpdating = (originalItem != null),
         super(key: key);
 
@@ -120,12 +139,7 @@ class _AddArticleScreenState extends State<AddArticleScreen> {
   }
 
   uploadArticle() {
-    YourArticle yourArticle = getArticle();
-    if (!widget.isUpdating) {
-      widget.onCreate(yourArticle);
-      widget.isUpdating = true;
-    }
-    widget.onUpdate(_id, yourArticle);
+    saveArticle();
     widget.onUpload(_id);
     _isUploaded = true;
   }
