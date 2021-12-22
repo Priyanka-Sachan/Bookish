@@ -1,8 +1,8 @@
-import 'dart:convert';
-
 import 'package:bookish/network/book_model.dart';
 import 'package:bookish/network/book_service.dart';
+import 'package:bookish/network/model_response.dart';
 import 'package:bookish/widgets/book_thumbnail.dart';
+import 'package:chopper/chopper.dart';
 import 'package:flutter/material.dart';
 
 class ExploreScreen extends StatefulWidget {
@@ -15,14 +15,8 @@ class ExploreScreen extends StatefulWidget {
 class _ExploreScreenState extends State<ExploreScreen> {
   int _nextPage = 1;
   bool _loading = true;
+  bool _inErrorState = false;
   List<APIBook> _books = [];
-
-  Future<APIBookQuery> getBooksData(int page) async {
-    final booksJson = await BookService().getBooks(page);
-    final booksMap = json.decode(booksJson);
-    final booksQuery = APIBookQuery.fromJson(booksMap);
-    return booksQuery;
-  }
 
   final _scrollController = ScrollController();
 
@@ -32,7 +26,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
       final triggerFetchMoreSize =
           0.7 * _scrollController.position.maxScrollExtent;
       if (_scrollController.position.pixels > triggerFetchMoreSize) {
-        if (_nextPage != 0 && !_loading) {
+        if (_nextPage != 0 && !_loading && !_inErrorState) {
           setState(() {
             _loading = true;
           });
@@ -46,8 +40,9 @@ class _ExploreScreenState extends State<ExploreScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder(
-          future: getBooksData(_nextPage),
-          builder: (context, AsyncSnapshot<APIBookQuery> snapshot) {
+          future: BookService.create().queryBooks(_nextPage),
+          builder: (context,
+              AsyncSnapshot<Response<Result<APIBookQuery>>> snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               if (snapshot.hasError) {
                 print(snapshot);
@@ -60,7 +55,13 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 );
               }
               _loading = false;
-              final query = snapshot.data;
+              final result = snapshot.data?.body;
+              if (result is Error) {
+                // Hit an error
+                _inErrorState = true;
+                return _buildBookList(context, _books);
+              }
+              final query = (result as Success).value;
               if (query != null) {
                 _books.addAll(query.results);
                 _nextPage = query.next != null ? _nextPage + 1 : 0;
