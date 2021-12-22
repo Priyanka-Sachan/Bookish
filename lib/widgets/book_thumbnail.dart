@@ -34,7 +34,7 @@ class BookThumbnail extends StatelessWidget {
             style: Theme.of(context).textTheme.bodyText1,
           ),
           Text(
-            book.authors[0].name,
+            'Anonymous',
             style: Theme.of(context).textTheme.bodyText1,
           ),
           const SizedBox(height: 12),

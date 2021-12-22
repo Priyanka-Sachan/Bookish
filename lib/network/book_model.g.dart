@@ -29,11 +29,8 @@ APIBook _$APIBookFromJson(Map<String, dynamic> json) {
   return APIBook(
     id: json['id'] as int,
     title: json['title'] as String,
-    authors: (json['authors'] as List<dynamic>)
-        .map((e) => APIPerson.fromJson(e as Map<String, dynamic>))
-        .toList(),
-    translators: (json['translators'] as List<dynamic>)
-        .map((e) => APIPerson.fromJson(e as Map<String, dynamic>))
+    authors: (json['authors'] as List<dynamic>?)
+        ?.map((e) => APIPerson.fromJson(e as Map<String, dynamic>))
         .toList(),
     subjects:
         (json['subjects'] as List<dynamic>).map((e) => e as String).toList(),
@@ -52,7 +49,6 @@ Map<String, dynamic> _$APIBookToJson(APIBook instance) => <String, dynamic>{
       'id': instance.id,
       'title': instance.title,
       'authors': instance.authors,
-      'translators': instance.translators,
       'subjects': instance.subjects,
       'bookshelves': instance.bookshelves,
       'languages': instance.languages,
