@@ -1,9 +1,9 @@
 import 'dart:convert';
 
+import 'package:bookish/network/book_model.dart';
 import 'package:flutter/services.dart';
 
 import 'package:bookish/models/article.dart';
-import 'package:bookish/models/book.dart';
 import 'package:bookish/models/post.dart';
 
 class MockBookService {
@@ -52,20 +52,12 @@ class MockBookService {
     return {'articles': articles, 'posts': posts};
   }
 
-  Future<List<Book>> getBooks() async {
-    await Future.delayed(const Duration(milliseconds: 1000));
+  Future<List<APIBook>> getBooks() async {
     final dataString =
-        await _loadAsset('assets/sample_data/sample_books_data.json');
-    final Map<String, dynamic> json = jsonDecode(dataString);
-
-    if (json['books'] != null) {
-      final books = <Book>[];
-      json['books'].forEach((v) {
-        books.add(Book.fromJson(v));
-      });
-      return books;
-    } else {
-      return [];
-    }
+        await _loadAsset('assets/sample_data/sample_api_data.json');
+    final result = APIBookQuery.fromJson(jsonDecode(dataString));
+    List<APIBook> books = [];
+    if (result.results.isNotEmpty) books = result.results;
+    return books;
   }
 }

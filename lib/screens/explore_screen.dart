@@ -1,5 +1,6 @@
 import 'package:bookish/api/mock_book_service.dart';
 import 'package:bookish/models/book.dart';
+import 'package:bookish/network/book_model.dart';
 import 'package:bookish/widgets/book_thumbnail.dart';
 import 'package:flutter/material.dart';
 
@@ -13,9 +14,15 @@ class ExploreScreen extends StatelessWidget {
     return Scaffold(
       body: FutureBuilder(
           future: mockBookService.getBooks(),
-          builder: (context, AsyncSnapshot<List<Book>> snapshot) {
+          builder: (context, AsyncSnapshot<List<APIBook>> snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
-              final books = snapshot.data!;
+              List<APIBook> books=[];
+              if(snapshot.hasError) {
+                print('LISTEN!!!!!!!!!!!!!!!');
+                print(snapshot);
+              }
+              if(snapshot.hasData)
+                books = snapshot.data!;
               return GridView.builder(
                 padding: EdgeInsets.all(8),
                 itemCount: books.length,
