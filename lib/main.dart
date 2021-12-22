@@ -3,12 +3,22 @@ import 'package:bookish/providers/profile_provider.dart';
 import 'package:bookish/providers/your_articles_provider.dart';
 import 'package:bookish/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:logging/logging.dart';
 import 'package:provider/provider.dart';
 
 import 'navigation/app_router.dart';
 
-void main() {
+Future<void> main() async {
+  _setupLogging();
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(BookishApp());
+}
+
+void _setupLogging() {
+  Logger.root.level = Level.ALL;
+  Logger.root.onRecord.listen((rec) {
+    print('${rec.level.name}: ${rec.time}: ${rec.message}');
+  });
 }
 
 class BookishApp extends StatefulWidget {

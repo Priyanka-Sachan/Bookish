@@ -1,7 +1,4 @@
-import 'package:bookish/models/bookish_pages.dart';
-import 'package:bookish/models/your_article.dart';
 import 'package:bookish/providers/your_articles_provider.dart';
-import 'package:bookish/screens/add_article_screen.dart';
 import 'package:bookish/widgets/your_article_section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
