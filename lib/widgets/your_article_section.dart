@@ -24,25 +24,6 @@ class YourArticleSection extends StatelessWidget {
               itemBuilder: (ctx, i) {
                 return GestureDetector(
                     onTap: () {
-                      // final manager = Provider.of<YourArticlesProvider>(context,
-                      //     listen: false);
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //     builder: (context) => AddArticleScreen(
-                      //       onCreate: (item) {
-                      //         manager.addItem(item);
-                      //       },
-                      //       onUpdate: (id,item) {
-                      //         manager.updateItem(id,item);
-                      //       },
-                      //       onUpload: (id) {
-                      //         manager.uploadItem(id);
-                      //       },
-                      //       originalItem: yourArticles[i],
-                      //     ),
-                      //   ),
-                      // );
                       Provider.of<YourArticlesProvider>(context, listen: false).tapItem(yourArticles[i].article.id);
                     },
                     child: (yourArticles[i].article.type ==

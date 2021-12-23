@@ -1,4 +1,5 @@
 import 'package:bookish/providers/app_state_provider.dart';
+import 'package:bookish/providers/articles_provider.dart';
 import 'package:bookish/providers/profile_provider.dart';
 import 'package:bookish/providers/your_articles_provider.dart';
 import 'package:bookish/theme.dart';
@@ -29,6 +30,7 @@ class BookishApp extends StatefulWidget {
 class _BookishAppState extends State<BookishApp> {
   final _appStateProvider = AppStateProvider();
   final _profileProvider = ProfileProvider();
+  final _articlesProvider=ArticlesProvider();
   final _yourArticleProvider = YourArticlesProvider();
   late AppRouter _appRouter;
 
@@ -37,6 +39,7 @@ class _BookishAppState extends State<BookishApp> {
     _appRouter = AppRouter(
       appStateProvider: _appStateProvider,
       profileProvider: _profileProvider,
+      articlesProvider:_articlesProvider,
       yourArticlesProvider: _yourArticleProvider,
     );
     super.initState();
@@ -48,6 +51,7 @@ class _BookishAppState extends State<BookishApp> {
       providers: [
         ChangeNotifierProvider(create: (context) => _appStateProvider),
         ChangeNotifierProvider(create: (context) => _profileProvider),
+        ChangeNotifierProvider(create: (context) => _articlesProvider),
         ChangeNotifierProvider(create: (context) => _yourArticleProvider)
       ],
       child: Consumer<ProfileProvider>(builder: (ctx, provider, child) {

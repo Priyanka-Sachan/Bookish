@@ -49,10 +49,6 @@ class _HomeState extends State<Home> {
     return Consumer<AppStateProvider>(builder: (context, provider, child) {
       return Scaffold(
         appBar: AppBar(
-          title: Text(
-            'Bookish',
-            style: Theme.of(context).textTheme.headline6,
-          ),
           actions: [
             profileButton(),
           ],
