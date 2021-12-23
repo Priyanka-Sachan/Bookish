@@ -23,4 +23,13 @@ class _$BookService extends BookService {
     final $request = Request('GET', $url, client.baseUrl, parameters: $params);
     return client.send<Result<APIBookQuery>, APIBookQuery>($request);
   }
+
+  @override
+  Future<Response<Result<APIBookQuery>>> queryBooksByGenre(
+      int page, String topic) {
+    final $url = 'books';
+    final $params = <String, dynamic>{'page': page, 'topic': topic};
+    final $request = Request('GET', $url, client.baseUrl, parameters: $params);
+    return client.send<Result<APIBookQuery>, APIBookQuery>($request);
+  }
 }

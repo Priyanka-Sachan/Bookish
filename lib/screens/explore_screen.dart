@@ -1,94 +1,92 @@
-import 'package:bookish/network/book_model.dart';
-import 'package:bookish/network/book_service.dart';
-import 'package:bookish/network/model_response.dart';
-import 'package:bookish/widgets/book_thumbnail.dart';
-import 'package:chopper/chopper.dart';
+import 'package:bookish/network/genre.dart';
+import 'package:bookish/screens/explore_genre_screen.dart';
 import 'package:flutter/material.dart';
 
 class ExploreScreen extends StatefulWidget {
-  ExploreScreen({Key? key}) : super(key: key);
+  const ExploreScreen({Key? key}) : super(key: key);
 
   @override
-  State<ExploreScreen> createState() => _ExploreScreenState();
+  _ExploreScreenState createState() => _ExploreScreenState();
 }
 
 class _ExploreScreenState extends State<ExploreScreen> {
-  int _nextPage = 1;
-  bool _loading = true;
-  bool _inErrorState = false;
-  List<APIBook> _books = [];
-
-  final _scrollController = ScrollController();
-
-  @override
-  void initState() {
-    _scrollController.addListener(() {
-      final triggerFetchMoreSize =
-          0.7 * _scrollController.position.maxScrollExtent;
-      if (_scrollController.position.pixels > triggerFetchMoreSize) {
-        if (_nextPage != 0 && !_loading && !_inErrorState) {
-          setState(() {
-            _loading = true;
-          });
-        }
-      }
-    });
-    super.initState();
-  }
+  final List<Genre> genres = [
+    Genre(name: 'romance', imageUrl: 'assets/images/genre-1.png'),
+    Genre(name: 'adventure', imageUrl: 'assets/images/genre-2.png'),
+    Genre(name: 'mystery', imageUrl: 'assets/images/genre-3.png'),
+    Genre(name: 'biography', imageUrl: 'assets/images/genre-4.png'),
+    Genre(name: 'children\'s', imageUrl: 'assets/images/genre-5.png'),
+    Genre(name: 'classics', imageUrl: 'assets/images/genre-6.png'),
+    Genre(name: 'fantasy', imageUrl: 'assets/images/genre-7.png'),
+    Genre(name: 'history', imageUrl: 'assets/images/genre-8.png'),
+    Genre(name: 'horror', imageUrl: 'assets/images/genre-9.png'),
+    Genre(name: 'literature', imageUrl: 'assets/images/genre-10.png'),
+    Genre(name: 'technology', imageUrl: 'assets/images/genre-11.png'),
+    Genre(name: 'science fiction', imageUrl: 'assets/images/genre-12.png'),
+    Genre(name: 'animal', imageUrl: 'assets/images/genre-13.png'),
+    Genre(name: 'countries', imageUrl: 'assets/images/genre-14.png'),
+    Genre(name: 'law', imageUrl: 'assets/images/genre-15.png'),
+    Genre(name: 'education', imageUrl: 'assets/images/genre-16.png')
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: FutureBuilder(
-          future: BookService.create().queryBooks(_nextPage),
-          builder: (context,
-              AsyncSnapshot<Response<Result<APIBookQuery>>> snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              if (snapshot.hasError) {
-                print(snapshot);
-                return Center(
-                  child: Text(
-                    snapshot.error.toString(),
-                    textAlign: TextAlign.center,
-                    textScaleFactor: 1.3,
-                  ),
-                );
-              }
-              _loading = false;
-              final result = snapshot.data?.body;
-              if (result is Error) {
-                // Hit an error
-                _inErrorState = true;
-                return _buildBookList(context, _books);
-              }
-              final query = (result as Success).value;
-              if (query != null) {
-                _books.addAll(query.results);
-                _nextPage = query.next != null ? _nextPage + 1 : 0;
-              }
-              return _buildBookList(context, _books);
-            } else {
-              if (_books.length == 0)
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              else
-                return _buildBookList(context, _books);
-            }
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ExploreGenreScreen(
+                      genre: '',
+                    )),
+          );
+        },
+        child: Icon(Icons.lock_open_rounded),
+      ),
+      body: ListView.builder(
+          itemCount: genres.length,
+          itemBuilder: (ctx, i) {
+            return _genreCard(context, genres[i]);
           }),
     );
   }
 
-  Widget _buildBookList(BuildContext context, List<APIBook> books) {
-    return GridView.builder(
-      padding: EdgeInsets.all(8),
-      controller: _scrollController,
-      itemCount: _books.length,
-      gridDelegate:
-          const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-      itemBuilder: (ctx, i) {
-        return BookThumbnail(book: _books[i]);
+  Widget _genreCard(BuildContext context, Genre genre) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => ExploreGenreScreen(genre: genre.name)),
+        );
       },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+        child: Stack(
+          children: [
+            Image.asset(
+              genre.imageUrl,
+              height: 256,
+              width: MediaQuery.of(context).size.width,
+              fit: BoxFit.cover,
+            ),
+            Positioned.fill(
+              child: Container(
+                alignment: Alignment.center,
+                color: Colors.black54,
+                child: Text(
+                  genre.name.toUpperCase(),
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline4
+                      ?.copyWith(color: Colors.white),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

@@ -3,6 +3,7 @@ import 'package:chopper/chopper.dart';
 
 import 'model_converter.dart';
 import 'model_response.dart';
+
 part 'book_service.chopper.dart';
 
 const String apiUrl = 'https://gutendex.com';
@@ -11,6 +12,11 @@ const String apiUrl = 'https://gutendex.com';
 abstract class BookService extends ChopperService {
   @Get(path: 'books')
   Future<Response<Result<APIBookQuery>>> queryBooks(@Query('page') int page);
+
+  @Get(path: 'books')
+  Future<Response<Result<APIBookQuery>>> queryBooksByGenre(
+      @Query('page') int page, @Query('topic') String topic);
+
   static BookService create() {
     final client = ChopperClient(
       baseUrl: apiUrl,
@@ -24,6 +30,7 @@ abstract class BookService extends ChopperService {
     return _$BookService(client);
   }
 }
+
 Request _addQuery(Request req) {
   final params = Map<String, dynamic>.from(req.parameters);
   return req.copyWith(parameters: params);
