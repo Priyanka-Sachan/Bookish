@@ -6,7 +6,9 @@ import 'package:chopper/chopper.dart';
 import 'package:flutter/material.dart';
 
 class ExploreGenreScreen extends StatefulWidget {
-  ExploreGenreScreen({Key? key}) : super(key: key);
+  String genre;
+
+  ExploreGenreScreen({Key? key, required this.genre}) : super(key: key);
 
   @override
   State<ExploreGenreScreen> createState() => _ExploreGenreScreenState();
@@ -17,8 +19,15 @@ class _ExploreGenreScreenState extends State<ExploreGenreScreen> {
   bool _loading = true;
   bool _inErrorState = false;
   List<APIBook> _books = [];
+  final _bookService = BookService.create();
 
   final _scrollController = ScrollController();
+
+  Future<Response<Result<APIBookQuery>>> getBooks() {
+    if (widget.genre.isNotEmpty)
+      return _bookService.queryBooksByGenre(_nextPage, widget.genre);
+    return _bookService.queryBooks(_nextPage);
+  }
 
   @override
   void initState() {
@@ -39,8 +48,11 @@ class _ExploreGenreScreenState extends State<ExploreGenreScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+      ),
       body: FutureBuilder(
-          future: BookService.create().queryBooks(_nextPage),
+          future: getBooks(),
           builder: (context,
               AsyncSnapshot<Response<Result<APIBookQuery>>> snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
@@ -80,12 +92,10 @@ class _ExploreGenreScreenState extends State<ExploreGenreScreen> {
   }
 
   Widget _buildBookList(BuildContext context, List<APIBook> books) {
-    return GridView.builder(
+    return ListView.builder(
       padding: EdgeInsets.all(8),
       controller: _scrollController,
       itemCount: _books.length,
-      gridDelegate:
-          const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
       itemBuilder: (ctx, i) {
         return BookThumbnail(book: _books[i]);
       },
