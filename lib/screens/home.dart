@@ -1,7 +1,7 @@
 import 'package:bookish/models/bookish_pages.dart';
 import 'package:bookish/providers/app_state_provider.dart';
 import 'package:bookish/providers/profile_provider.dart';
-import 'package:bookish/screens/chat_screen.dart';
+import 'package:bookish/screens/read_screen.dart';
 import 'package:bookish/screens/explore_screen.dart';
 import 'package:bookish/screens/feed_screen.dart';
 import 'package:bookish/screens/your_articles_screen.dart';
@@ -34,7 +34,7 @@ class _HomeState extends State<Home> {
   static List<Widget> pages = <Widget>[
     FeedScreen(),
     ExploreScreen(),
-    ChatScreen(),
+    ReadScreen(),
     YourArticlesScreen()
   ];
 
@@ -65,20 +65,20 @@ class _HomeState extends State<Home> {
           },
           items: <BottomNavigationBarItem>[
             const BottomNavigationBarItem(
-              icon: Icon(Icons.book),
-              label: 'Feed',
+              icon: Icon(Icons.home_outlined),
+              label: 'Home',
             ),
             const BottomNavigationBarItem(
-              icon: Icon(Icons.library_books_rounded),
+              icon: Icon(Icons.explore_outlined),
               label: 'Explore',
             ),
             const BottomNavigationBarItem(
-              icon: Icon(Icons.chat),
-              label: 'Chat',
+              icon: Icon(Icons.menu_book_rounded),
+              label: 'Read',
             ),
             const BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: 'Profile',
+              icon: Icon(Icons.border_color_rounded),
+              label: 'Recommend',
             ),
           ],
         ),

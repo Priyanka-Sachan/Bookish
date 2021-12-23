@@ -2,6 +2,13 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'book_model.g.dart';
 
+class Genre {
+  final String name;
+  final String imageUrl;
+
+  Genre({required this.name, required this.imageUrl});
+}
+
 @JsonSerializable()
 class APIBookQuery {
   int count;
