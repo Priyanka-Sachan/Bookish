@@ -81,6 +81,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                       .textTheme
                       .headline4
                       ?.copyWith(color: Colors.white),
+                  textAlign: TextAlign.center,
                 ),
               ),
             ),

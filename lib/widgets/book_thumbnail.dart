@@ -1,4 +1,5 @@
 import 'package:bookish/network/book_model.dart';
+import 'package:bookish/screens/book_details_screen.dart';
 import 'package:flutter/material.dart';
 
 class BookThumbnail extends StatelessWidget {
@@ -11,58 +12,116 @@ class BookThumbnail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 4,horizontal: 8),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ClipRRect(
-            child: Image.network(
-              '${book.formats['image/jpeg'] != null ? book.formats['image/jpeg']?.replaceAll('small', 'medium') : 'https://i.pinimg.com/736x/a6/50/cd/a650cdc389e72a5213be5f05a8fcd9db.jpg'}',
-              fit: BoxFit.cover,
-              width: 100,
-              height: 150,
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => BookDetailsScreen(
+              book: book,
             ),
-            borderRadius: BorderRadius.circular(8),
           ),
-          SizedBox(width: 8,),
-          Expanded(
-            child: Column(
+        );
+      },
+      child: Container(
+        padding: EdgeInsets.all(8),
+        child: Column(
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  book.title,
-                  style: Theme.of(context).textTheme.headline6,
-                  softWrap: true,
+                ClipRRect(
+                  child: Image.network(
+                    '${book.formats['image/jpeg'] != null ? book.formats['image/jpeg']?.replaceAll('small', 'medium') : 'https://i.pinimg.com/736x/a6/50/cd/a650cdc389e72a5213be5f05a8fcd9db.jpg'}',
+                    fit: BoxFit.cover,
+                    width: 100,
+                    height: 150,
+                  ),
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(8),
+                      bottomLeft: Radius.circular(8),
+                      bottomRight: Radius.circular(8)),
                 ),
-                Text(
-                  book.authors != null && book.authors!.isNotEmpty
-                      ? book.authors![0].name
-                      : 'Anonymous',
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyText1
-                      ?.copyWith(color: Colors.grey),
-                  softWrap: true,
+                SizedBox(
+                  width: 8,
                 ),
-                Divider(
-                  height: 2,
-                  color: Colors.black,
+                Expanded(
+                  child: Container(
+                    padding: EdgeInsets.all(4),
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.primary,
+                        borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(8),
+                            bottomLeft: Radius.circular(8),
+                            bottomRight: Radius.circular(8))),
+                    child: Column(
+                      children: [
+                        Text(
+                          book.title,
+                          style: Theme.of(context).textTheme.headline6,
+                          softWrap: true,
+                          textAlign: TextAlign.center,
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        Text(
+                          book.authors != null && book.authors!.isNotEmpty
+                              ? book.authors![0].name.split(',').length > 1
+                                  ? ('${book.authors![0].name.split(',')[1]} ${book.authors![0].name.split(',')[0]}')
+                                  : book.authors![0].name
+                              : 'Anonymous',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyText1
+                              ?.copyWith(color: Colors.white),
+                          softWrap: true,
+                          textAlign: TextAlign.center,
+                        ),
+                        SizedBox(
+                          height: 2,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.download),
+                            Text(book.downloadCount != 0
+                                ? book.downloadCount.toString()
+                                : '--'),
+                            Text(' |'),
+                            ...book.languages.map((l) => Text(
+                                  ' ${l.toUpperCase()}',
+                                  style: TextStyle(color: Colors.black),
+                                )),
+                          ],
+                        ),
+                        Wrap(
+                          spacing: 4,
+                          alignment: WrapAlignment.center,
+                          children: [
+                            ...book.bookshelves.map(
+                              (bk) => ChoiceChip(
+                                padding: EdgeInsets.zero,
+                                label: Text(bk),
+                                shape: StadiumBorder(side: BorderSide()),
+                                labelStyle: TextStyle(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .secondary),
+                                selected: true,
+                                selectedColor: Colors.transparent,
+                                onSelected: (_) {},
+                              ),
+                            )
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.download),
-                    Text(book.downloadCount != 0
-                        ? book.downloadCount.toString()
-                        : '--'),
-                    Text('|'),
-                    Text(book.languages[0])
-                  ],
-                )
               ],
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
