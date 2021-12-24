@@ -2,24 +2,37 @@ import 'dart:ui';
 
 import 'package:bookish/models/article.dart';
 import 'package:bookish/models/bookish_pages.dart';
+import 'package:bookish/providers/articles_provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
-class ArticleDetailsScreen extends StatelessWidget {
-  final Article article;
+class ArticleDetailsScreen extends StatefulWidget {
+  final String id;
 
-  static MaterialPage page({required Article article}) {
+  static MaterialPage page({required String id}) {
     return MaterialPage(
       name: BookishPages.articleDetailsPath,
       key: ValueKey(BookishPages.articleDetailsPath),
       child: ArticleDetailsScreen(
-        article: article,
+        id: id,
       ),
     );
   }
 
-  const ArticleDetailsScreen({Key? key, required this.article})
-      : super(key: key);
+  const ArticleDetailsScreen({Key? key, required this.id}) : super(key: key);
+
+  @override
+  State<ArticleDetailsScreen> createState() => _ArticleDetailsScreenState();
+}
+
+class _ArticleDetailsScreenState extends State<ArticleDetailsScreen> {
+  @override
+  void initState() {
+    //..Fetch article from id
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,120 +40,136 @@ class ArticleDetailsScreen extends StatelessWidget {
       context: context,
       removeTop: true,
       child: Scaffold(
-        body: ListView(
-          children: [
-            Stack(
-              children: [
-                Image.network(article.backgroundImage,
-                    fit: BoxFit.cover,
-                    width: MediaQuery.of(context).size.width,
-                    height: 300),
-                Positioned.fill(
-                    child: Container(
-                  decoration: BoxDecoration(color: Colors.black45),
-                )),
-                Positioned(
-                    top: 32,
-                    left: 8,
-                    child: IconButton(
-                      icon: Icon(
-                        Icons.arrow_back,
-                        color: Colors.white,
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    )),
-                Card(
-                  margin: EdgeInsets.fromLTRB(16, 250, 16, 16),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+        body: StreamBuilder<DocumentSnapshot<Object?>>(
+            stream: Provider.of<ArticlesProvider>(context, listen: true)
+                .getArticleStream(widget.id),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                Article article = Article.fromSnapshot(snapshot.data!);
+                return ListView(
+                  children: [
+                    Stack(
                       children: [
-                        Text(
-                          DateFormat.yMMMd()
-                              .format(article.timeStamp)
-                              .toUpperCase(),
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline6
-                              ?.copyWith(
-                                  color: Theme.of(context).colorScheme.primary),
-                        ),
-                        Text(
-                          article.title,
-                          style: Theme.of(context).textTheme.headline3,
-                        ),
-                        Text(
-                          article.subtitle,
-                          style: Theme.of(context).textTheme.headline4,
-                        ),
-                        SizedBox(
-                          height: 16,
-                        ),
-                        Text(
-                          article.body,
-                        ),
-                        Wrap(
-                          spacing: 4,
-                          alignment: WrapAlignment.center,
-                          children: [
-                            ...article.tags.map(
-                              (tag) => ChoiceChip(
-                                padding: EdgeInsets.zero,
-                                label: Text(tag),
-                                shape: StadiumBorder(side: BorderSide()),
-                                labelStyle: TextStyle(color: Colors.black),
-                                selected: true,
-                                selectedColor: Colors.transparent,
-                                onSelected: (_) {},
+                        Image.network(article.backgroundImage,
+                            fit: BoxFit.cover,
+                            width: MediaQuery.of(context).size.width,
+                            height: 300),
+                        Positioned.fill(
+                            child: Container(
+                          decoration: BoxDecoration(color: Colors.black45),
+                        )),
+                        Positioned(
+                            top: 32,
+                            left: 8,
+                            child: IconButton(
+                              icon: Icon(
+                                Icons.arrow_back,
+                                color: Colors.white,
                               ),
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          height: 16,
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Column(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            )),
+                        Card(
+                          margin: EdgeInsets.fromLTRB(16, 250, 16, 16),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                CircleAvatar(
-                                  backgroundImage:
-                                      NetworkImage(article.authorImage),
-                                  radius: 32,
+                                Text(
+                                  DateFormat.yMMMd()
+                                      .format(article.timeStamp)
+                                      .toUpperCase(),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headline6
+                                      ?.copyWith(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary),
                                 ),
-                                Text(article.authorName)
+                                Text(
+                                  article.title,
+                                  style: Theme.of(context).textTheme.headline3,
+                                ),
+                                Text(
+                                  article.subtitle,
+                                  style: Theme.of(context).textTheme.headline4,
+                                ),
+                                SizedBox(
+                                  height: 16,
+                                ),
+                                Text(
+                                  article.body,
+                                ),
+                                Wrap(
+                                  spacing: 4,
+                                  alignment: WrapAlignment.center,
+                                  children: [
+                                    ...article.tags.map(
+                                      (tag) => ChoiceChip(
+                                        padding: EdgeInsets.zero,
+                                        label: Text(tag),
+                                        shape:
+                                            StadiumBorder(side: BorderSide()),
+                                        labelStyle:
+                                            TextStyle(color: Colors.black),
+                                        selected: true,
+                                        selectedColor: Colors.transparent,
+                                        onSelected: (_) {},
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 16,
+                                ),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Column(
+                                      children: [
+                                        CircleAvatar(
+                                          backgroundImage:
+                                              NetworkImage(article.authorImage),
+                                          radius: 32,
+                                        ),
+                                        Text(article.authorName)
+                                      ],
+                                    ),
+                                    Stack(
+                                      alignment: Alignment.topRight,
+                                      children: [
+                                        Container(
+                                          padding: EdgeInsets.all(8),
+                                          child: Container(
+                                              padding: EdgeInsets.all(8),
+                                              decoration: BoxDecoration(
+                                                  color: Colors.grey,
+                                                  borderRadius:
+                                                      BorderRadius.circular(4)),
+                                              child: Text(article.message)),
+                                        ),
+                                        Icon(Icons.format_quote_rounded)
+                                      ],
+                                    ),
+                                  ],
+                                )
                               ],
                             ),
-                            Stack(
-                              alignment: Alignment.topRight,
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.all(8),
-                                  child: Container(
-                                      padding: EdgeInsets.all(8),
-                                      decoration: BoxDecoration(
-                                          color: Colors.grey,
-                                          borderRadius:
-                                              BorderRadius.circular(4)),
-                                      child: Text(article.message)),
-                                ),
-                                Icon(Icons.format_quote_rounded)
-                              ],
-                            ),
-                          ],
+                          ),
                         )
                       ],
                     ),
-                  ),
-                )
-              ],
-            ),
-          ],
-        ),
+                  ],
+                );
+              } else {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+            }),
       ),
     );
   }

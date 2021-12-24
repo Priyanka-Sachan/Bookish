@@ -3,6 +3,7 @@ import 'package:bookish/providers/articles_provider.dart';
 import 'package:bookish/providers/profile_provider.dart';
 import 'package:bookish/providers/your_articles_provider.dart';
 import 'package:bookish/theme.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 import 'package:provider/provider.dart';
@@ -12,6 +13,7 @@ import 'navigation/app_router.dart';
 Future<void> main() async {
   _setupLogging();
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(BookishApp());
 }
 
