@@ -57,8 +57,7 @@ class AppRouter extends RouterDelegate
         if (appStateProvider.isOnboardingComplete)
           Home.page(appStateProvider.getSelectedTab),
         if (articlesProvider.selectedId.isNotEmpty)
-          ArticleDetailsScreen.page(
-              article: articlesProvider.getSelectedItem()),
+          ArticleDetailsScreen.page(id: articlesProvider.selectedId),
         if (yourArticlesProvider.isCreatingNewItem)
           AddArticleScreen.page(onCreate: (item) {
             yourArticlesProvider.addItem(item);

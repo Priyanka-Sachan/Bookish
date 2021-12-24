@@ -1,38 +1,32 @@
 import 'dart:convert';
 
 import 'package:bookish/models/article.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class ArticlesProvider with ChangeNotifier {
-  List<Article> _articles = <Article>[];
-
-  List<Article> get articles => List.unmodifiable(_articles);
-
   String _selectedId = '';
 
   String get selectedId => _selectedId;
 
-  Future<List<Article>> fetchArticles() async {
-    final dataString = await rootBundle
-        .loadString('assets/sample_data/sample_articles_data.json');
-    final Map<String, dynamic> json = jsonDecode(dataString);
-    List<Article> results = <Article>[];
-    if (json['articles'] != null) {
-      json['articles'].forEach((v) {
-        results.add(Article.fromJson(v));
-      });
-      _articles = results;
-      return _articles;
-    } else {
-      return [];
-    }
+  final CollectionReference collection =
+      FirebaseFirestore.instance.collection('articles');
+
+  Stream<QuerySnapshot> getArticlesStream() {
+    return collection.snapshots();
   }
 
-  Article getSelectedItem() {
-    Article article =
-        _articles.firstWhere((element) => element.id == _selectedId);
-    return article;
+  void saveArticle(Article article) {
+    collection.add(article.toJson());
+  }
+
+  Stream<DocumentSnapshot<Object?>> getArticleStream(String id) {
+    return collection.doc(id).snapshots();
+  }
+
+  void addComment(String id,Comment comment) {
+    //...
   }
 
   void tapItem(String id) {
