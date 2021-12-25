@@ -1,62 +1,69 @@
+import 'package:bookish/database/database_helper.dart';
 import 'package:bookish/models/your_article.dart';
 import 'package:flutter/cupertino.dart';
 
 class YourArticlesProvider with ChangeNotifier {
-  final _yourArticles = <YourArticle>[];
-
-  List<YourArticle> get yourArticles => List.unmodifiable(_yourArticles);
+  final dbHelper = DatabaseHelper.instance;
 
   bool _createNewItem = false;
-  String _selectedId = '';
+  bool _updatingItem = false;
+  YourArticle? _selectedArticle;
 
   bool get isCreatingNewItem => _createNewItem;
 
-  String get selectedId => _selectedId;
+  bool get updatingItem => _updatingItem;
+
+  YourArticle? get selectedArticle => _selectedArticle;
+
+  Future init() async {
+    await dbHelper.database;
+    return Future.value();
+  }
 
   void createNewItem() {
     _createNewItem = true;
     notifyListeners();
   }
 
-  YourArticle getSelectedItem() {
-    YourArticle yourArticle = _yourArticles
-        .firstWhere((element) => element.article.id == _selectedId);
-    return yourArticle;
+  void updateItem() {
+    _updatingItem = true;
+    notifyListeners();
   }
 
-  void tapItem(String id) {
-    _selectedId = id;
+  void tapItem(YourArticle? yourArticle) {
+    _selectedArticle = yourArticle;
     _createNewItem = false;
+    _updatingItem=false;
     notifyListeners();
   }
 
-  //
-  // void completeItem(int index, bool change) {
-  //   final item = _yourArticles[index];
-  //   _yourArticles[index] = item.copyWith(isComplete: change);
-  //   notifyListeners();
-  // }
-
-  void deleteItem(String id) {
-    int index = _yourArticles.indexWhere((element) => element.article.id == id);
-    _yourArticles.removeAt(index);
-    notifyListeners();
+  Future<int> deleteArticle(int id) {
+    return dbHelper.deleteArticle(id);
   }
 
-  void addItem(YourArticle item) {
-    _yourArticles.add(item);
-    notifyListeners();
+  Future<List<YourArticle>> findAllArticles() {
+    return dbHelper.findAllArticles();
   }
 
-  void updateItem(String id, YourArticle newItem) {
-    int index = _yourArticles.indexWhere((element) => element.article.id == id);
-    _yourArticles[index] = newItem;
-    notifyListeners();
+  Future<YourArticle> findArticleById(int id) {
+    return dbHelper.findArticleById(id);
   }
 
-  void uploadItem(String id) {
-    int index = _yourArticles.indexWhere((element) => element.article.id == id);
-    _yourArticles[index].isUploaded = true;
-    notifyListeners();
+  Future<int> insertArticle(YourArticle yourArticle) {
+    return dbHelper.insertArticle(yourArticle);
+  }
+
+  Future<int> updateArticle(YourArticle yourArticle) {
+    return dbHelper.updateArticle(yourArticle);
+  }
+
+  Stream<List<YourArticle>> watchAllArticles() {
+    return dbHelper.watchAllArticles();
+  }
+
+  @override
+  void dispose() {
+    dbHelper.close();
+    super.dispose();
   }
 }

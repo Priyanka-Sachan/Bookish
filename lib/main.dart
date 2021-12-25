@@ -7,14 +7,15 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 import 'package:provider/provider.dart';
-
 import 'navigation/app_router.dart';
 
 Future<void> main() async {
   _setupLogging();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(BookishApp());
+  final yourArticlesProvider = YourArticlesProvider();
+  await yourArticlesProvider.init();
+  runApp(BookishApp(yourArticleProvider: yourArticlesProvider));
 }
 
 void _setupLogging() {
@@ -25,6 +26,11 @@ void _setupLogging() {
 }
 
 class BookishApp extends StatefulWidget {
+  final YourArticlesProvider yourArticleProvider;
+
+  const BookishApp({Key? key, required this.yourArticleProvider})
+      : super(key: key);
+
   @override
   _BookishAppState createState() => _BookishAppState();
 }
@@ -32,8 +38,9 @@ class BookishApp extends StatefulWidget {
 class _BookishAppState extends State<BookishApp> {
   final _appStateProvider = AppStateProvider();
   final _profileProvider = ProfileProvider();
-  final _articlesProvider=ArticlesProvider();
-  final _yourArticleProvider = YourArticlesProvider();
+  final _articlesProvider = ArticlesProvider();
+
+  // final _yourArticleProvider = YourArticlesProvider();
   late AppRouter _appRouter;
 
   @override
@@ -41,8 +48,8 @@ class _BookishAppState extends State<BookishApp> {
     _appRouter = AppRouter(
       appStateProvider: _appStateProvider,
       profileProvider: _profileProvider,
-      articlesProvider:_articlesProvider,
-      yourArticlesProvider: _yourArticleProvider,
+      articlesProvider: _articlesProvider,
+      yourArticlesProvider: widget.yourArticleProvider,
     );
     super.initState();
   }
@@ -54,7 +61,7 @@ class _BookishAppState extends State<BookishApp> {
         ChangeNotifierProvider(create: (context) => _appStateProvider),
         ChangeNotifierProvider(create: (context) => _profileProvider),
         ChangeNotifierProvider(create: (context) => _articlesProvider),
-        ChangeNotifierProvider(create: (context) => _yourArticleProvider)
+        ChangeNotifierProvider(create: (context) => widget.yourArticleProvider)
       ],
       child: Consumer<ProfileProvider>(builder: (ctx, provider, child) {
         ThemeData theme;

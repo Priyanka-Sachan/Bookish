@@ -1,3 +1,4 @@
+import 'package:bookish/models/your_article.dart';
 import 'package:bookish/providers/your_articles_provider.dart';
 import 'package:bookish/widgets/your_article_section.dart';
 import 'package:flutter/material.dart';
@@ -14,57 +15,48 @@ class YourArticlesScreen extends StatefulWidget {
 class _YourArticlesScreenState extends State<YourArticlesScreen> {
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<YourArticlesProvider>(context, listen: false);
     return Scaffold(
       floatingActionButton: FloatingActionButton(
           onPressed: () {
-            Provider.of<YourArticlesProvider>(context, listen: false).createNewItem();
-            // final manager =
-            //     Provider.of<YourArticlesProvider>(context, listen: false);
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(
-            //     builder: (context) => AddArticleScreen(
-            //       onCreate: (item) {
-            //         manager.addItem(item);
-            //       },
-            //       onUpdate: (id,item) {
-            //         manager.updateItem(id, item);
-            //       },
-            //       onUpload: (id) {
-            //         manager.uploadItem(id);
-            //       },
-            //     ),
-            //   ),
-            // );
+            Provider.of<YourArticlesProvider>(context, listen: false)
+                .createNewItem();
           },
           child: Icon(Icons.add)),
-      body: Consumer<YourArticlesProvider>(builder: (ctx, provider, child) {
-        if (provider.yourArticles.isEmpty) {
-          return Column(children: [
-            SvgPicture.asset('assets/images/add_article.svg'),
-            Text('No articles here...')
-          ]);
-        } else {
-          final uploadedArticles =
-              provider.yourArticles.where((e) => e.isUploaded).toList();
-          final inProgressArticles =
-              provider.yourArticles.where((e) => !e.isUploaded).toList();
-          return ListView(
-            children: [
-              uploadedArticles.isNotEmpty
-                  ? Text('Uploaded articles',
-                      style: Theme.of(context).textTheme.headline3)
-                  : SizedBox(),
-              YourArticleSection(yourArticles: uploadedArticles),
-              inProgressArticles.isNotEmpty
-                  ? Text('In Progress articles',
-                      style: Theme.of(context).textTheme.headline3)
-                  : SizedBox(),
-              YourArticleSection(yourArticles: inProgressArticles),
-            ],
-          );
-        }
-      }),
+      body: StreamBuilder<List<YourArticle>>(
+          stream: provider.watchAllArticles(),
+          builder: (context, AsyncSnapshot<List<YourArticle>> snapshot) {
+            if (snapshot.connectionState == ConnectionState.active) {
+              final yourArticles = snapshot.data ?? [];
+              if (yourArticles.isEmpty) {
+                return Column(children: [
+                  SvgPicture.asset('assets/images/add_article.svg'),
+                  Text('No articles here...')
+                ]);
+              } else {
+                final uploadedArticles =
+                    yourArticles.where((e) => e.isUploaded).toList();
+                final inProgressArticles =
+                    yourArticles.where((e) => !e.isUploaded).toList();
+                return ListView(
+                  children: [
+                    uploadedArticles.isNotEmpty
+                        ? Text('Uploaded articles',
+                            style: Theme.of(context).textTheme.headline3)
+                        : SizedBox(),
+                    YourArticleSection(yourArticles: uploadedArticles),
+                    inProgressArticles.isNotEmpty
+                        ? Text('In Progress articles',
+                            style: Theme.of(context).textTheme.headline3)
+                        : SizedBox(),
+                    YourArticleSection(yourArticles: inProgressArticles),
+                  ],
+                );
+              }
+            } else {
+              return CircularProgressIndicator();
+            }
+          }),
     );
   }
 }

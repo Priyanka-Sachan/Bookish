@@ -6,4 +6,6 @@ class BookishPages {
   static String profilePath = '/profile';
   static String addArticlePath = '/add-article';
   static String articleDetailsPath='/article-details';
+  static String yourArticleDetailsPath='/your-article-details';
+
 }
