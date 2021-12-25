@@ -11,6 +11,24 @@ class Comment {
       required this.imageUrl,
       required this.message,
       required this.timeStamp});
+
+  factory Comment.fromJson(Map<String, dynamic> json) {
+    return Comment(
+        username: json['username'],
+        imageUrl: json['imageUrl'],
+        message: json['message'],
+        timeStamp: (json['timeStamp'] as Timestamp).toDate());
+  }
+
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'username': username,
+      'imageUrl': imageUrl,
+      'message': message,
+      'timeStamp':
+          Timestamp.fromMicrosecondsSinceEpoch(timeStamp.microsecondsSinceEpoch)
+    };
+  }
 }
 
 class ArticleType {
@@ -59,8 +77,12 @@ class Article {
         authorImage: json['authorImage'] ?? '',
         tags: json['tags'].cast<String>() ?? [],
         body: json['body'] ?? '',
-        timeStamp: DateTime.now(),
-        comments: json['comments'].cast<Comment>() ?? []);
+        timeStamp: (json['timeStamp'] as Timestamp).toDate(),
+        comments: json['comments'] != null
+            ? (json['comments'] as List<dynamic>)
+                .map((e) => Comment.fromJson(e))
+                .toList()
+            : []);
   }
 
   Map<String, dynamic> toJson() {
@@ -75,7 +97,8 @@ class Article {
       'authorImage': authorImage,
       'tags': tags,
       'body': body,
-      'timeStamp': timeStamp.toString(),
+      'timeStamp': Timestamp.fromMicrosecondsSinceEpoch(
+          timeStamp.microsecondsSinceEpoch),
     };
   }
 

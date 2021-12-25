@@ -1,6 +1,7 @@
 import 'package:bookish/models/article.dart';
 import 'package:bookish/models/bookish_pages.dart';
 import 'package:bookish/providers/articles_provider.dart';
+import 'package:bookish/widgets/comment_section.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -136,30 +137,39 @@ class _ArticleDetailsScreenState extends State<ArticleDetailsScreen> {
                                         Text(article.authorName)
                                       ],
                                     ),
-                                    Stack(
-                                      alignment: Alignment.topRight,
-                                      children: [
-                                        Container(
-                                          padding: EdgeInsets.all(8),
-                                          child: Container(
+                                    Expanded(
+                                      child: Stack(
+                                        alignment: Alignment.topRight,
+                                        children: [
+                                          Container(
+                                            padding: EdgeInsets.all(8),
+                                            child: Container(
                                               padding: EdgeInsets.all(8),
                                               decoration: BoxDecoration(
                                                   color: Colors.grey,
                                                   borderRadius:
                                                       BorderRadius.circular(4)),
-                                              child: Text(article.message)),
-                                        ),
-                                        Icon(Icons.format_quote_rounded)
-                                      ],
+                                              child: Text(
+                                                article.message,
+                                                softWrap: true,
+                                                maxLines: 3,
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                            ),
+                                          ),
+                                          Icon(Icons.format_quote_rounded)
+                                        ],
+                                      ),
                                     ),
                                   ],
                                 )
                               ],
                             ),
                           ),
-                        )
+                        ),
                       ],
                     ),
+                    CommentSection(id: article.id, comments: article.comments)
                   ],
                 );
               } else {

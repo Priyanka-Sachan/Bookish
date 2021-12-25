@@ -1,10 +1,13 @@
 import 'package:bookish/models/article.dart';
 import 'package:bookish/models/bookish_pages.dart';
+import 'package:bookish/models/user.dart';
 import 'package:bookish/models/your_article.dart';
+import 'package:bookish/providers/profile_provider.dart';
+import 'package:bookish/providers/your_articles_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:textfield_tags/textfield_tags.dart';
-import 'package:uuid/uuid.dart';
 
 class AddArticleScreen extends StatefulWidget {
   final Function(YourArticle) onCreate;
@@ -45,7 +48,7 @@ class _AddArticleScreenState extends State<AddArticleScreen> {
   final _subtitleController = TextEditingController();
   final _messageController = TextEditingController();
   final _bodyController = TextEditingController();
-  String _id = const Uuid().v1();
+  String _id = '-1';
   String _type = "";
   String _title = "";
   String _subtitle = "";
@@ -65,6 +68,7 @@ class _AddArticleScreenState extends State<AddArticleScreen> {
     YourArticle? originalItem = widget.originalItem;
     if (originalItem != null) {
       _id = originalItem.article.id;
+      print('id...$_id');
       _type = originalItem.article.type;
       _title = originalItem.article.title;
       _subtitle = originalItem.article.subtitle;
@@ -79,6 +83,10 @@ class _AddArticleScreenState extends State<AddArticleScreen> {
       _subtitleController.text = _subtitle;
       _messageController.text = _message;
       _bodyController.text = _body;
+    } else {
+      User user = Provider.of<ProfileProvider>(context, listen: false).user;
+      _authorName = user.username;
+      _authorImage = user.profileImageUrl;
     }
     _titleController.addListener(() {
       setState(() {
@@ -126,13 +134,11 @@ class _AddArticleScreenState extends State<AddArticleScreen> {
 
   saveArticle() {
     YourArticle yourArticle = getArticle();
-    widget.onCreate(yourArticle);
-  }
-
-  uploadArticle() {
-    _isUploaded = true;
-    YourArticle yourArticle = getArticle();
-    widget.onUpdate(yourArticle);
+    if (widget.isUpdating)
+      widget.onUpdate(yourArticle);
+    else
+      widget.onCreate(yourArticle);
+    Provider.of<YourArticlesProvider>(context, listen: false).tapItem(null);
   }
 
   @override
@@ -153,12 +159,6 @@ class _AddArticleScreenState extends State<AddArticleScreen> {
             icon: const Icon(Icons.check),
             onPressed: saveArticle,
           ),
-          widget.isUpdating
-              ? IconButton(
-                  icon: const Icon(Icons.cloud_upload_outlined),
-                  onPressed: uploadArticle,
-                )
-              : SizedBox()
         ],
       ),
       body: Container(

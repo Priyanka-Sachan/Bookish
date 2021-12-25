@@ -70,7 +70,7 @@ class AppRouter extends RouterDelegate
           YourArticleDetailsScreen.page(
             yourArticle: yourArticlesProvider.selectedArticle!,
           ),
-        if (yourArticlesProvider.updatingItem && yourArticlesProvider.selectedArticle != null)
+        if (yourArticlesProvider.updatingItem)
           AddArticleScreen.page(
             onCreate: (item){},
               onUpdate: (item) {

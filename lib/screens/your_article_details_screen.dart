@@ -1,6 +1,8 @@
 import 'package:bookish/models/article.dart';
 import 'package:bookish/models/bookish_pages.dart';
 import 'package:bookish/models/your_article.dart';
+import 'package:bookish/providers/articles_provider.dart';
+import 'package:bookish/providers/profile_provider.dart';
 import 'package:bookish/providers/your_articles_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -70,20 +72,43 @@ class _YourArticleDetailsScreenState extends State<YourArticleDetailsScreen> {
                       color: Colors.white,
                     ),
                     onPressed: () {
-                     Provider.of<YourArticlesProvider>(context,listen: false).updateItem();
+                      Provider.of<YourArticlesProvider>(context, listen: false)
+                          .updateItem();
                     },
                   ),
                 ),
                 Positioned(
                   top: 32,
-                  right: 48,
+                  right: 40,
                   child: IconButton(
                     icon: Icon(
                       Icons.cloud_upload_outlined,
                       color: Colors.white,
                     ),
                     onPressed: () {
-                      //TODO: ...
+                      Provider.of<ArticlesProvider>(context, listen: false)
+                          .saveArticle(
+                              Provider.of<ProfileProvider>(context,
+                                      listen: false)
+                                  .user
+                                  .username,
+                              article);
+                      Provider.of<YourArticlesProvider>(context, listen: false)
+                          .uploadItem(widget.yourArticle);
+                    },
+                  ),
+                ),
+                Positioned(
+                  top: 32,
+                  right: 72,
+                  child: IconButton(
+                    icon: Icon(
+                      Icons.delete_outline_rounded,
+                      color: Colors.white,
+                    ),
+                    onPressed: () {
+                      Provider.of<YourArticlesProvider>(context, listen: false)
+                          .deleteItem(article.id);
                     },
                   ),
                 ),
