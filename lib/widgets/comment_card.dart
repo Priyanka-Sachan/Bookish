@@ -21,27 +21,35 @@ class CommentCard extends StatelessWidget {
                 backgroundImage: NetworkImage(comment.imageUrl),
                 radius: 20,
               ),
-              Container(
-                padding: EdgeInsets.all(4),
-                margin: EdgeInsets.all(4),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(4),
-                        bottomLeft: Radius.circular(4),
-                        bottomRight: Radius.circular(4)),
-                    color: Colors.white),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      comment.username,
-                      style: Theme.of(context).textTheme.bodyText1,
+              Flexible(
+                child: Container(
+                  child: Container(
+                    padding: EdgeInsets.all(4),
+                    margin: EdgeInsets.all(4),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(4),
+                            bottomLeft: Radius.circular(4),
+                            bottomRight: Radius.circular(4)),
+                        color: Colors.white),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          comment.username,
+                          style: Theme.of(context).textTheme.bodyText1,
+                        ),
+                        Wrap(
+                          children: [
+                            Text(
+                              comment.message,
+                              style: Theme.of(context).textTheme.bodyText2,
+                            ),
+                          ],
+                        )
+                      ],
                     ),
-                    Text(
-                      comment.message,
-                      style: Theme.of(context).textTheme.bodyText2,
-                    )
-                  ],
+                  ),
                 ),
               )
             ],

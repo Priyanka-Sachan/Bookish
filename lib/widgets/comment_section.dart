@@ -54,7 +54,18 @@ class _CommentSectionState extends State<CommentSection> {
     return Container(
       color: Colors.black45,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Text(
+              'Read & Comment',
+              style: Theme.of(context)
+                  .textTheme
+                  .headline3
+                  ?.copyWith(color: Colors.white),
+            ),
+          ),
           Container(
             padding: EdgeInsets.symmetric(horizontal: 16),
             child: widget.comments != null

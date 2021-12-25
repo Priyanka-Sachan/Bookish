@@ -1,7 +1,6 @@
 import 'package:bookish/models/article.dart';
 import 'package:bookish/models/bookish_pages.dart';
 import 'package:bookish/providers/articles_provider.dart';
-import 'package:bookish/widgets/comment_card.dart';
 import 'package:bookish/widgets/comment_section.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
