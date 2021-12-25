@@ -25,8 +25,9 @@ class ArticlesProvider with ChangeNotifier {
   }
 
   void addComment(String id, Comment comment) {
-    //...
-    collection.doc(id).collection('comments').add(comment.toJson());
+    collection.doc(id).update({
+      'comments': FieldValue.arrayUnion([comment.toJson()])
+    });
   }
 
   void tapItem(String id) {

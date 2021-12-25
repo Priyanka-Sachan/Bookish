@@ -17,8 +17,7 @@ class Comment {
         username: json['username'],
         imageUrl: json['imageUrl'],
         message: json['message'],
-        timeStamp:
-            new DateTime.fromMillisecondsSinceEpoch(json['timeStamp'] * 1000));
+        timeStamp: (json['timeStamp'] as Timestamp).toDate());
   }
 
   Map<String, dynamic> toJson() {
@@ -26,7 +25,8 @@ class Comment {
       'username': username,
       'imageUrl': imageUrl,
       'message': message,
-      'timeStamp': timeStamp.millisecondsSinceEpoch
+      'timeStamp':
+          Timestamp.fromMicrosecondsSinceEpoch(timeStamp.microsecondsSinceEpoch)
     };
   }
 }
