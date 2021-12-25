@@ -38,6 +38,10 @@ dependencies:
   logging: ^1.0.1
   firebase_core: ^1.6.0
   cloud_firestore: ^2.5.3
+  sqflite: ^2.0.0+4
+  path_provider: ^2.0.2
+  synchronized: ^3.0.0
+  sqlbrite: ^2.1.0
 
 dev_dependencies:
   flutter_test:
@@ -59,7 +63,6 @@ flutter:
 
   assets:
     - assets/
-    - assets/sample_data/
     - assets/images/
   # To add assets to your application, add an assets section, like this:
   # assets:

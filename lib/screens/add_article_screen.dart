@@ -8,16 +8,14 @@ import 'package:uuid/uuid.dart';
 
 class AddArticleScreen extends StatefulWidget {
   final Function(YourArticle) onCreate;
-  final Function(String, YourArticle) onUpdate;
-  final Function(String) onUpload;
+  final Function(YourArticle) onUpdate;
   final YourArticle? originalItem;
   bool isUpdating;
 
   static MaterialPage page({
-    YourArticle? originalItem,
+    required YourArticle? originalItem,
     required Function(YourArticle) onCreate,
-    required Function(String, YourArticle) onUpdate,
-    required Function(String) onUpload,
+    required Function(YourArticle) onUpdate,
   }) {
     return MaterialPage(
       name: BookishPages.addArticlePath,
@@ -26,7 +24,6 @@ class AddArticleScreen extends StatefulWidget {
         originalItem: originalItem,
         onCreate: onCreate,
         onUpdate: onUpdate,
-        onUpload: onUpload,
       ),
     );
   }
@@ -36,7 +33,6 @@ class AddArticleScreen extends StatefulWidget {
     this.originalItem,
     required this.onCreate,
     required this.onUpdate,
-    required this.onUpload,
   })  : isUpdating = (originalItem != null),
         super(key: key);
 
@@ -49,7 +45,6 @@ class _AddArticleScreenState extends State<AddArticleScreen> {
   final _subtitleController = TextEditingController();
   final _messageController = TextEditingController();
   final _bodyController = TextEditingController();
-
   String _id = const Uuid().v1();
   String _type = "";
   String _title = "";
@@ -67,7 +62,7 @@ class _AddArticleScreenState extends State<AddArticleScreen> {
 
   @override
   void initState() {
-    final originalItem = widget.originalItem;
+    YourArticle? originalItem = widget.originalItem;
     if (originalItem != null) {
       _id = originalItem.article.id;
       _type = originalItem.article.type;
@@ -131,18 +126,13 @@ class _AddArticleScreenState extends State<AddArticleScreen> {
 
   saveArticle() {
     YourArticle yourArticle = getArticle();
-    if (widget.isUpdating)
-      widget.onUpdate(_id, yourArticle);
-    else {
-      widget.onCreate(yourArticle);
-      widget.isUpdating = true;
-    }
+    widget.onCreate(yourArticle);
   }
 
   uploadArticle() {
-    saveArticle();
-    widget.onUpload(_id);
     _isUploaded = true;
+    YourArticle yourArticle = getArticle();
+    widget.onUpdate(yourArticle);
   }
 
   @override
@@ -163,10 +153,12 @@ class _AddArticleScreenState extends State<AddArticleScreen> {
             icon: const Icon(Icons.check),
             onPressed: saveArticle,
           ),
-          IconButton(
-            icon: const Icon(Icons.cloud_upload_outlined),
-            onPressed: uploadArticle,
-          )
+          widget.isUpdating
+              ? IconButton(
+                  icon: const Icon(Icons.cloud_upload_outlined),
+                  onPressed: uploadArticle,
+                )
+              : SizedBox()
         ],
       ),
       body: Container(

@@ -10,6 +10,7 @@ import 'package:bookish/screens/login_screen.dart';
 import 'package:bookish/screens/onboarding_screen.dart';
 import 'package:bookish/screens/profile_screen.dart';
 import 'package:bookish/screens/splash_screen.dart';
+import 'package:bookish/screens/your_article_details_screen.dart';
 import 'package:flutter/material.dart';
 
 class AppRouter extends RouterDelegate
@@ -59,23 +60,23 @@ class AppRouter extends RouterDelegate
         if (articlesProvider.selectedId.isNotEmpty)
           ArticleDetailsScreen.page(id: articlesProvider.selectedId),
         if (yourArticlesProvider.isCreatingNewItem)
-          AddArticleScreen.page(onCreate: (item) {
-            yourArticlesProvider.addItem(item);
-          }, onUpdate: (item, id) {
-            yourArticlesProvider.updateItem(item, id);
-          }, onUpload: (id) {
-            yourArticlesProvider.uploadItem(id);
-          }),
-        if (yourArticlesProvider.selectedId.isNotEmpty)
           AddArticleScreen.page(
-              originalItem: yourArticlesProvider.getSelectedItem(),
-              onCreate: (item) {},
-              onUpdate: (item, id) {
-                yourArticlesProvider.updateItem(item, id);
+              onCreate: (item) {
+                yourArticlesProvider.insertArticle(item);
               },
-              onUpload: (id) {
-                yourArticlesProvider.uploadItem(id);
-              }),
+              onUpdate: (item) {},
+              originalItem: null),
+        if (yourArticlesProvider.selectedArticle != null)
+          YourArticleDetailsScreen.page(
+            yourArticle: yourArticlesProvider.selectedArticle!,
+          ),
+        if (yourArticlesProvider.updatingItem && yourArticlesProvider.selectedArticle != null)
+          AddArticleScreen.page(
+            onCreate: (item){},
+              onUpdate: (item) {
+                yourArticlesProvider.updateArticle(item);
+              },
+              originalItem: yourArticlesProvider.selectedArticle),
         if (profileProvider.didSelectUser)
           ProfileScreen.page(profileProvider.user),
       ],
@@ -92,8 +93,11 @@ class AppRouter extends RouterDelegate
     if (route.settings.name == BookishPages.articleDetailsPath) {
       articlesProvider.tapItem('');
     }
+    if (route.settings.name == BookishPages.yourArticleDetailsPath) {
+      yourArticlesProvider.tapItem(null);
+    }
     if (route.settings.name == BookishPages.addArticlePath) {
-      yourArticlesProvider.tapItem('');
+      yourArticlesProvider.tapItem(null);
     }
     if (route.settings.name == BookishPages.profilePath) {
       profileProvider.tapOnProfile(false);

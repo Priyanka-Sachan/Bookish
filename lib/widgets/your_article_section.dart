@@ -24,7 +24,7 @@ class YourArticleSection extends StatelessWidget {
               itemBuilder: (ctx, i) {
                 return GestureDetector(
                     onTap: () {
-                      Provider.of<YourArticlesProvider>(context, listen: false).tapItem(yourArticles[i].article.id);
+                      Provider.of<YourArticlesProvider>(context, listen: false).tapItem(yourArticles[i]);
                     },
                     child: (yourArticles[i].article.type ==
                             ArticleType.editorial)
