@@ -14,16 +14,19 @@ class ArticlesProvider with ChangeNotifier {
     return collection.snapshots();
   }
 
-  void saveArticle(Article article) {
-    collection.add(article.toJson());
+  void saveArticle(String userId, Article article) {
+    var articleJson = article.toJson();
+    articleJson['id'] = '$userId@${articleJson['id']}';
+    collection.doc(articleJson['id']).set(articleJson);
   }
 
   Stream<DocumentSnapshot<Object?>> getArticleStream(String id) {
     return collection.doc(id).snapshots();
   }
 
-  void addComment(String id,Comment comment) {
+  void addComment(String id, Comment comment) {
     //...
+    collection.doc(id).collection('comments').add(comment.toJson());
   }
 
   void tapItem(String id) {

@@ -25,15 +25,27 @@ class YourArticlesProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void deleteItem(String id) {
+    deleteArticle(int.parse(id));
+    _selectedArticle = null;
+  }
+
   void updateItem() {
     _updatingItem = true;
     notifyListeners();
   }
 
+  void uploadItem(YourArticle yourArticle) {
+    yourArticle.isUploaded = true;
+    updateArticle(yourArticle);
+    notifyListeners();
+  }
+
   void tapItem(YourArticle? yourArticle) {
+    //..bug when tap back from add article screen in updating mode
     _selectedArticle = yourArticle;
     _createNewItem = false;
-    _updatingItem=false;
+    _updatingItem = false;
     notifyListeners();
   }
 
