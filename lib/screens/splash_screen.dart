@@ -20,11 +20,6 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    Provider.of<AppStateProvider>(context, listen: false).initializeApp();
-  }
 
   @override
   Widget build(BuildContext context) {

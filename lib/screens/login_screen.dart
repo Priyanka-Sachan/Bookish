@@ -13,11 +13,8 @@ class LoginScreen extends StatefulWidget {
     );
   }
 
-  final String? username;
-
   LoginScreen({
     Key? key,
-    this.username,
   }) : super(key: key);
 
   @override
@@ -25,22 +22,47 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  String _username = '';
+  int _page = 0;
+  bool _isLoading = false;
+  String _email = '';
   String _password = '';
-  final _usernameController = TextEditingController();
+  final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   void login() async {
-    //TODO:Validate username and password.
-    Provider.of<AppStateProvider>(context, listen: false)
-        .login(_username, _password);
+    setState(() {
+      _isLoading = true;
+    });
+    try {
+      Provider.of<AppStateProvider>(context, listen: false)
+          .login(_email, _password);
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(e.toString()),
+      ));
+    }
+  }
+
+  void signup() async {
+    setState(() {
+      _isLoading = true;
+    });
+    try {
+      Provider.of<AppStateProvider>(context, listen: false)
+          .signup(_email, _password);
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(e.toString()),
+      ));
+    }
   }
 
   @override
   void initState() {
-    _usernameController.addListener(() {
+    _emailController.addListener(() {
       setState(() {
-        _username = _usernameController.text;
+        _email = _emailController.text;
       });
     });
     _passwordController.addListener(() {
@@ -53,7 +75,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void dispose() {
-    _usernameController.dispose();
+    _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
@@ -63,35 +85,88 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: Stack(
           children: [
-            SizedBox(
-              height: 200,
-              child: SvgPicture.asset(
-                'assets/images/splash_screen_logo.svg',
-              ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: 200,
+                  child: SvgPicture.asset(
+                    'assets/images/splash_screen_logo.svg',
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        controller: _emailController,
+                        keyboardType: TextInputType.emailAddress,
+                        textCapitalization: TextCapitalization.none,
+                        decoration: InputDecoration(
+                          hintText: 'Email',
+                          border: OutlineInputBorder(),
+                        ),
+                        validator: (String? value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Email Required';
+                          }
+                          return null;
+                        },
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      TextFormField(
+                        controller: _passwordController,
+                        keyboardType: TextInputType.visiblePassword,
+                        decoration: InputDecoration(
+                          hintText: 'Password',
+                          border: OutlineInputBorder(),
+                        ),
+                        validator: (String? value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Password Required';
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 16),
+                      _page == 0
+                          ? ElevatedButton(
+                              onPressed: login, child: Text('Login'))
+                          : ElevatedButton(
+                              onPressed: signup, child: Text('Sign Up')),
+                      _page == 0
+                          ? OutlinedButton(
+                              onPressed: () {
+                                setState(() {
+                                  _page = 1;
+                                });
+                              },
+                              child: Text('Create an account'),
+                            )
+                          : OutlinedButton(
+                              onPressed: () {
+                                setState(() {
+                                  _page = 0;
+                                });
+                              },
+                              child: Text('Already have a account?'),
+                            )
+                    ],
+                  ),
+                ),
+              ],
             ),
-            const SizedBox(height: 16),
-            TextFormField(
-              controller: _usernameController,
-              maxLength: 32,
-              decoration: InputDecoration(
-                hintText: 'Username',
-                border: OutlineInputBorder(),
-              ),
-            ),
-            TextFormField(
-              controller: _passwordController,
-              keyboardType: TextInputType.visiblePassword,
-              decoration: InputDecoration(
-                hintText: 'Password',
-                border: OutlineInputBorder(),
-              ),
-            ),
-            const SizedBox(height: 16),
-            ElevatedButton(onPressed: login, child: Text('Login')),
+            _isLoading
+                ? Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : SizedBox()
           ],
         ),
       ),

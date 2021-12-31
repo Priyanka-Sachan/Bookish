@@ -6,11 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatefulWidget {
-  User user = User(
-      username: 'Anonymous',
-      profileImageUrl:
-          "https://media.istockphoto.com/photos/good-book-can-do-the-world-of-good-picture-id1257761640?b=1&k=20&m=1257761640&s=170667a&w=0&h=TkLOhtnBo88Iw6lOZ3fPFT6ZJ-TQ388d4GVdkvRd4HE=",
-      darkMode: false);
+  User user;
 
   ProfileScreen({Key? key, required this.user}) : super(key: key);
 
@@ -49,6 +45,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               radius: 60,
             ),
             Text(widget.user.username),
+            Text(widget.user.emailId),
             Expanded(
               child: ListView(
                 children: [

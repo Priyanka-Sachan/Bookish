@@ -20,6 +20,24 @@ class ArticlesProvider with ChangeNotifier {
     collection.doc(articleJson['id']).set(articleJson);
   }
 
+  void updateArticle(String userId, Article article) {
+    var articleJson = article.toJson();
+    articleJson['id'] = '$userId@${articleJson['id']}';
+    collection.doc(articleJson['id']).set({
+      'id': articleJson['id'],
+      'type': articleJson['type'],
+      'title': articleJson['title'],
+      'subtitle': articleJson['subtitle'],
+      'backgroundImage': articleJson['backgroundImage'],
+      'message': articleJson['message'],
+      'authorName': articleJson['authorName'],
+      'authorImage': articleJson['authorImage'],
+      'tags': articleJson['tags'],
+      'body': articleJson['body'],
+      'timeStamp': articleJson['timeStamp'],
+    });
+  }
+
   Stream<DocumentSnapshot<Object?>> getArticleStream(String id) {
     return collection.doc(id).snapshots();
   }
