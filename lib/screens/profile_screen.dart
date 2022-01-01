@@ -2,7 +2,8 @@ import 'package:bookish/models/bookish_pages.dart';
 import 'package:bookish/models/user.dart';
 import 'package:bookish/providers/app_state_provider.dart';
 import 'package:bookish/providers/profile_provider.dart';
-import 'package:bookish/widgets/ProfileImagePicker.dart';
+import 'package:bookish/theme.dart';
+import 'package:bookish/widgets/profile_image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -46,82 +47,114 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.close),
-          onPressed: () {
-            Provider.of<ProfileProvider>(context, listen: false)
-                .tapOnProfile(false);
-          },
+    return Theme(
+      data: BookishTheme.light().copyWith(
+        textSelectionTheme: TextSelectionThemeData(
+          cursorColor: Colors.black,
+          selectionColor: Colors.white,
+          selectionHandleColor: Colors.black,
         ),
       ),
-      body: Center(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const SizedBox(height: 16.0),
-            ProfileImagePicker(
-                imageUrl: widget.user.profileImageUrl, saveImage: saveImage),
-            _editingUsername
-                ? TextFormField(
-                    controller: _usernameController,
-                    maxLength: 16,
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      focusedBorder: InputBorder.none,
-                      enabledBorder: InputBorder.none,
-                      disabledBorder: InputBorder.none,
-                      suffixIcon: IconButton(
-                        onPressed: () {
-                          Provider.of<ProfileProvider>(context, listen: false)
-                              .updateUsername(_usernameController.text);
-                          setState(() {
-                            _editingUsername = false;
-                          });
-                        },
-                        icon: Icon(
-                          Icons.done,
-                          color: Theme.of(context).colorScheme.primary,
+      child: Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        appBar: AppBar(
+          leading: IconButton(
+            icon: const Icon(Icons.close),
+            onPressed: () {
+              Provider.of<ProfileProvider>(context, listen: false)
+                  .tapOnProfile(false);
+            },
+          ),
+        ),
+        body: Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const SizedBox(height: 16.0),
+              ProfileImagePicker(
+                  imageUrl: widget.user.profileImageUrl, saveImage: saveImage),
+              _editingUsername
+                  ? IntrinsicWidth(
+                      child: TextFormField(
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline4
+                            ?.copyWith(color: Colors.black),
+                        controller: _usernameController,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                          enabledBorder: InputBorder.none,
+                          disabledBorder: InputBorder.none,
+                          suffixIcon: IconButton(
+                            onPressed: () {
+                              Provider.of<ProfileProvider>(context,
+                                      listen: false)
+                                  .updateUsername(_usernameController.text);
+                              setState(() {
+                                _editingUsername = false;
+                              });
+                            },
+                            icon: Icon(
+                              Icons.done,
+                              color: Colors.black,
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  )
-                : GestureDetector(
-                    child: Text(widget.user.username),
-                    onTap: () {
-                      setState(() {
-                        _editingUsername = true;
-                      });
-                    },
-                  ),
-            Text(widget.user.emailId),
-            Expanded(
-              child: ListView(
-                children: [
-                  ListTile(
-                    title: const Text('Dark Mode'),
-                    trailing: Switch(
-                      value: widget.user.darkMode,
-                      onChanged: (value) {
-                        Provider.of<ProfileProvider>(context, listen: false)
-                            .setDarkMode(value);
+                    )
+                  : GestureDetector(
+                      child: Text(
+                        widget.user.username,
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline4
+                            ?.copyWith(color: Colors.black),
+                      ),
+                      onTap: () {
+                        setState(() {
+                          _editingUsername = true;
+                        });
                       },
                     ),
-                  ),
-                  ListTile(
-                    title: const Text('Log out'),
-                    onTap: () {
-                      Provider.of<ProfileProvider>(context, listen: false)
-                          .tapOnProfile(false);
-                      Provider.of<AppStateProvider>(context, listen: false)
-                          .logout();
-                    },
-                  )
-                ],
+              Text(
+                widget.user.emailId,
+                style: Theme.of(context)
+                    .textTheme
+                    .headline6
+                    ?.copyWith(color: Colors.black),
               ),
-            )
-          ],
+              Expanded(
+                child: ListView(
+                  children: [
+                    ListTile(
+                      title: const Text(
+                        'Dark Mode',
+                      ),
+                      trailing: Switch(
+                        value: widget.user.darkMode,
+                        onChanged: (value) {
+                          Provider.of<ProfileProvider>(context, listen: false)
+                              .setDarkMode(value);
+                        },
+                      ),
+                    ),
+                    ListTile(
+                      title: const Text(
+                        'Log out',
+                      ),
+                      onTap: () {
+                        Provider.of<ProfileProvider>(context, listen: false)
+                            .tapOnProfile(false);
+                        Provider.of<AppStateProvider>(context, listen: false)
+                            .logout();
+                      },
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

@@ -46,9 +46,13 @@ class _ProfileImagePickerState extends State<ProfileImagePicker> {
           radius: 64,
         ),
         CircleAvatar(
-            backgroundColor: Theme.of(context).backgroundColor,
+            backgroundColor: Colors.black,
             child: IconButton(
-                onPressed: pickImage, icon: Icon(Icons.camera_alt_rounded)))
+                onPressed: pickImage,
+                icon: Icon(
+                  Icons.camera_alt_rounded,
+                  color: Colors.white,
+                )))
       ],
     );
   }

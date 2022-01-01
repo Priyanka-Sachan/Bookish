@@ -96,7 +96,7 @@ class BookishTheme {
       appBarTheme: const AppBarTheme(
         elevation: 0,
         foregroundColor: Colors.black,
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.transparent,
       ),
       floatingActionButtonTheme: const FloatingActionButtonThemeData(
         foregroundColor: Colors.white,
@@ -120,7 +120,7 @@ class BookishTheme {
       appBarTheme: AppBarTheme(
         elevation: 0,
         foregroundColor: Colors.white,
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.transparent,
       ),
       floatingActionButtonTheme: const FloatingActionButtonThemeData(
         foregroundColor: Colors.black,
