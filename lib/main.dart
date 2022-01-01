@@ -45,6 +45,8 @@ class _BookishAppState extends State<BookishApp> {
 
   @override
   void initState() {
+    _appStateProvider.initializeApp();
+    _appStateProvider.checkOnboardingStatus();
     _appRouter = AppRouter(
       appStateProvider: _appStateProvider,
       profileProvider: _profileProvider,

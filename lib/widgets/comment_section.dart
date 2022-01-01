@@ -40,6 +40,7 @@ class _CommentSectionState extends State<CommentSection> {
   void addComment() {
     User user = Provider.of<ProfileProvider>(context, listen: false).user;
     Comment comment = Comment(
+        id: user.uid,
         username: user.username,
         imageUrl: user.profileImageUrl,
         message: message,
