@@ -51,6 +51,7 @@ class _BookishAppState extends State<BookishApp> {
       articlesProvider: _articlesProvider,
       yourArticlesProvider: widget.yourArticleProvider,
     );
+    _profileProvider.fetchUser();
     super.initState();
   }
 

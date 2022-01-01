@@ -30,6 +30,21 @@ class YourArticleDetailsScreen extends StatefulWidget {
 }
 
 class _YourArticleDetailsScreenState extends State<YourArticleDetailsScreen> {
+  void uploadArticle() {
+    YourArticle yourArticle = widget.yourArticle;
+    String username =
+        Provider.of<ProfileProvider>(context, listen: false).user.username;
+    if (yourArticle.isUploaded) {
+      Provider.of<ArticlesProvider>(context, listen: false)
+          .updateArticle(username, yourArticle.article);
+    } else {
+      Provider.of<ArticlesProvider>(context, listen: false)
+          .saveArticle(username, yourArticle.article);
+    }
+    Provider.of<YourArticlesProvider>(context, listen: false)
+        .uploadItem(widget.yourArticle);
+  }
+
   @override
   Widget build(BuildContext context) {
     Article article = widget.yourArticle.article;
@@ -85,17 +100,7 @@ class _YourArticleDetailsScreenState extends State<YourArticleDetailsScreen> {
                       Icons.cloud_upload_outlined,
                       color: Colors.white,
                     ),
-                    onPressed: () {
-                      Provider.of<ArticlesProvider>(context, listen: false)
-                          .saveArticle(
-                              Provider.of<ProfileProvider>(context,
-                                      listen: false)
-                                  .user
-                                  .username,
-                              article);
-                      Provider.of<YourArticlesProvider>(context, listen: false)
-                          .uploadItem(widget.yourArticle);
-                    },
+                    onPressed: uploadArticle,
                   ),
                 ),
                 Positioned(
