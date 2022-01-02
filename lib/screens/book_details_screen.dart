@@ -1,16 +1,23 @@
 import 'package:bookish/network/book_model.dart';
+import 'package:bookish/widgets/download_dialog.dart';
 import 'package:flutter/material.dart';
 
 import 'explore_genre_screen.dart';
 
-class BookDetailsScreen extends StatelessWidget {
+class BookDetailsScreen extends StatefulWidget {
   APIBook book;
 
   BookDetailsScreen({Key? key, required this.book}) : super(key: key);
+
+  @override
+  State<BookDetailsScreen> createState() => _BookDetailsScreenState();
+}
+
+class _BookDetailsScreenState extends State<BookDetailsScreen> {
   List<String> tags = [];
 
   void getTags() {
-    book.subjects.forEach((s) {
+    widget.book.subjects.forEach((s) {
       s.split('--').forEach((e) {
         String tag = e.trim().toLowerCase();
         if (tag.length <= 24) tags.add(tag);
@@ -37,7 +44,7 @@ class BookDetailsScreen extends StatelessWidget {
                 Stack(
                   children: [
                     Image.network(
-                      '${book.formats['image/jpeg'] != null ? book.formats['image/jpeg']?.replaceAll('small', 'medium') : 'https://i.pinimg.com/736x/a6/50/cd/a650cdc389e72a5213be5f05a8fcd9db.jpg'}',
+                      '${widget.book.formats['image/jpeg'] != null ? widget.book.formats['image/jpeg']?.replaceAll('small', 'medium') : 'https://i.pinimg.com/736x/a6/50/cd/a650cdc389e72a5213be5f05a8fcd9db.jpg'}',
                       fit: BoxFit.cover,
                       width: MediaQuery.of(context).size.width,
                       height: 300,
@@ -61,25 +68,27 @@ class BookDetailsScreen extends StatelessWidget {
                   ],
                 ),
                 Text(
-                  book.title,
+                  widget.book.title,
                   style: Theme.of(context).textTheme.headline3,
                   softWrap: true,
+                  maxLines: 3,
                   textAlign: TextAlign.center,
                 ),
                 Text(
-                  book.authors != null && book.authors!.isNotEmpty
-                      ? book.authors![0].name.split(',').length > 1
-                          ? ('${book.authors![0].name.split(',')[1]} ${book.authors![0].name.split(',')[0]}')
-                          : book.authors![0].name
+                  widget.book.authors != null && widget.book.authors!.isNotEmpty
+                      ? widget.book.authors![0].name.split(',').length > 1
+                          ? ('${widget.book.authors![0].name.split(',')[1]} ${widget.book.authors![0].name.split(',')[0]}')
+                          : widget.book.authors![0].name
                       : 'Anonymous',
                   style: Theme.of(context)
                       .textTheme
                       .headline5
                       ?.copyWith(color: Colors.grey),
                   softWrap: true,
+                  maxLines: 1,
                   textAlign: TextAlign.center,
                 ),
-                ...book.languages.map((l) => Text(' ${l.toUpperCase()}',
+                ...widget.book.languages.map((l) => Text(' ${l.toUpperCase()}',
                     style: Theme.of(context).textTheme.bodyText1?.copyWith(
                           color: Theme.of(context).colorScheme.primary,
                         ),
@@ -102,34 +111,51 @@ class BookDetailsScreen extends StatelessWidget {
                     )
                   ],
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                Column(
                   children: [
-                    Column(
-                      children: [
-                        Icon(Icons.download),
-                        Text(
-                          book.downloadCount != 0
-                              ? book.downloadCount.toString() + '\nDOWNLOADS'
-                              : '--',
-                          style: Theme.of(context).textTheme.bodyText1,
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        Text('text/html'.toUpperCase(),
-                            semanticsLabel: book.formats['text/html']),
-                        Text('text/plain'.toUpperCase(),
-                            semanticsLabel: book.formats['text/plain']),
-                        Text('application/epub+zip'.toUpperCase(),
-                            semanticsLabel:
-                                book.formats['application/epub+zip']),
-                      ],
+                    Icon(Icons.download),
+                    Text(
+                      widget.book.downloadCount != 0
+                          ? widget.book.downloadCount.toString() + '\nDOWNLOADS'
+                          : '--',
+                      style: Theme.of(context).textTheme.bodyText1,
+                      textAlign: TextAlign.center,
                     ),
                   ],
                 ),
+                widget.book.formats['application/epub+zip'] != null
+                    ? InkWell(
+                        child: Container(
+                          margin: EdgeInsets.symmetric(horizontal: 32),
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                                color: Theme.of(context).colorScheme.secondary,
+                                width: 2),
+                            borderRadius: BorderRadius.all(Radius.circular(16)),
+                          ),
+                          child: Text(
+                            'DOWNLOAD NOW',
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context).textTheme.headline3,
+                          ),
+                        ),
+                        onTap: () {
+                          print(
+                              'DOWNLOAD: ${widget.book.formats['application/epub+zip']}');
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return DownloadDialog(
+                                  bookName: widget.book.title,
+                                  url: widget.book
+                                          .formats['application/epub+zip'] ??
+                                      '',
+                                );
+                              });
+                        },
+                      )
+                    : SizedBox(),
                 SizedBox(
                   height: 8,
                 ),
@@ -139,7 +165,7 @@ class BookDetailsScreen extends StatelessWidget {
                 )
               ],
             ),
-            book.bookshelves.isNotEmpty
+            widget.book.bookshelves.isNotEmpty
                 ? Padding(
                     padding: const EdgeInsets.only(
                         left: 8, right: 8, top: 40, bottom: 8),
@@ -147,7 +173,7 @@ class BookDetailsScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'If you liked ${book.title}'.toUpperCase(),
+                          'If you liked ${widget.book.title}'.toUpperCase(),
                           style: Theme.of(context)
                               .textTheme
                               .headline5
@@ -166,7 +192,7 @@ class BookDetailsScreen extends StatelessWidget {
                             primary: false,
                             shrinkWrap: true,
                             children: [
-                              ...book.bookshelves
+                              ...widget.book.bookshelves
                                   .map((b) => _bookshelfCard(context, b))
                             ],
                           ),

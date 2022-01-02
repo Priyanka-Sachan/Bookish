@@ -86,13 +86,6 @@ class BookishTheme {
           primaryVariant: Color(0xfff9a826),
           secondary: Colors.black,
           secondaryVariant: Colors.black),
-      checkboxTheme: CheckboxThemeData(
-        fillColor: MaterialStateColor.resolveWith(
-          (states) {
-            return Colors.black;
-          },
-        ),
-      ),
       appBarTheme: const AppBarTheme(
         elevation: 0,
         foregroundColor: Colors.black,

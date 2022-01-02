@@ -1,5 +1,6 @@
 import 'package:bookish/providers/app_state_provider.dart';
 import 'package:bookish/providers/articles_provider.dart';
+import 'package:bookish/providers/book_provider.dart';
 import 'package:bookish/providers/profile_provider.dart';
 import 'package:bookish/providers/your_articles_provider.dart';
 import 'package:bookish/theme.dart';
@@ -64,7 +65,8 @@ class _BookishAppState extends State<BookishApp> {
         ChangeNotifierProvider(create: (context) => _appStateProvider),
         ChangeNotifierProvider(create: (context) => _profileProvider),
         ChangeNotifierProvider(create: (context) => _articlesProvider),
-        ChangeNotifierProvider(create: (context) => widget.yourArticleProvider)
+        ChangeNotifierProvider(create: (context) => widget.yourArticleProvider),
+        ChangeNotifierProvider(create: (context) => BookProvider())
       ],
       child: Consumer<ProfileProvider>(builder: (ctx, provider, child) {
         ThemeData theme;
