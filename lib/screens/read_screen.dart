@@ -5,7 +5,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
 class ReadScreen extends StatelessWidget {
-  const ReadScreen({Key? key}) : super(key: key);
+  const ReadScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +25,7 @@ class ReadScreen extends StatelessWidget {
                 ]);
               } else {
                 return ListView.builder(
+                  itemCount: books.length,
                   itemBuilder: (BuildContext context, int i) {
                     return ListTile(
                       leading: CircleAvatar(

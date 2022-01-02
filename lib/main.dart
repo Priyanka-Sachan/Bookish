@@ -8,15 +8,20 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 import 'package:provider/provider.dart';
+import 'database/database_helper.dart';
 import 'navigation/app_router.dart';
 
 Future<void> main() async {
   _setupLogging();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  final dbHelper = DatabaseHelper.instance;
+  await dbHelper.database;
   final yourArticlesProvider = YourArticlesProvider();
-  await yourArticlesProvider.init();
-  runApp(BookishApp(yourArticleProvider: yourArticlesProvider));
+  yourArticlesProvider.init(dbHelper);
+  final bookProvider = BookProvider();
+  bookProvider.init(dbHelper);
+  runApp(BookishApp(yourArticleProvider: yourArticlesProvider,bookProvider:bookProvider));
 }
 
 void _setupLogging() {
@@ -28,8 +33,9 @@ void _setupLogging() {
 
 class BookishApp extends StatefulWidget {
   final YourArticlesProvider yourArticleProvider;
+  final BookProvider bookProvider;
 
-  const BookishApp({Key? key, required this.yourArticleProvider})
+  const BookishApp({Key? key, required this.yourArticleProvider,required this.bookProvider})
       : super(key: key);
 
   @override
@@ -66,7 +72,7 @@ class _BookishAppState extends State<BookishApp> {
         ChangeNotifierProvider(create: (context) => _profileProvider),
         ChangeNotifierProvider(create: (context) => _articlesProvider),
         ChangeNotifierProvider(create: (context) => widget.yourArticleProvider),
-        ChangeNotifierProvider(create: (context) => BookProvider())
+        ChangeNotifierProvider(create: (context) => widget.bookProvider)
       ],
       child: Consumer<ProfileProvider>(builder: (ctx, provider, child) {
         ThemeData theme;

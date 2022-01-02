@@ -1,13 +1,14 @@
+import 'package:bookish/models/book.dart';
 import 'package:bookish/providers/book_provider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class DownloadDialog extends StatefulWidget {
-  final String bookName;
+  final Book book;
   final String url;
 
-  const DownloadDialog({Key? key, required this.bookName, required this.url})
+  const DownloadDialog({Key? key, required this.book, required this.url})
       : super(key: key);
 
   @override
@@ -18,10 +19,10 @@ class _DownloadDialogState extends State<DownloadDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text("Downloading '${widget.bookName}.epub'"),
+      title: Text("Downloading '${widget.book.title}.epub'"),
       content: FutureBuilder(
           future: Provider.of<BookProvider>(context, listen: true)
-              .downloadBook(widget.bookName, widget.url),
+              .downloadBook(widget.book, widget.url),
           builder: (context, AsyncSnapshot<Response<dynamic>> snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               if (snapshot.hasError) {

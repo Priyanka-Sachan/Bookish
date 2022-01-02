@@ -1,3 +1,4 @@
+import 'package:bookish/models/book.dart';
 import 'package:bookish/network/book_model.dart';
 import 'package:bookish/widgets/download_dialog.dart';
 import 'package:flutter/material.dart';
@@ -29,6 +30,15 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     getTags();
+    String? image = widget.book.formats['image/jpeg'] != null
+        ? widget.book.formats['image/jpeg']?.replaceAll('small', 'medium')
+        : 'https://i.pinimg.com/736x/a6/50/cd/a650cdc389e72a5213be5f05a8fcd9db.jpg';
+    String author = widget.book.authors != null &&
+            widget.book.authors!.isNotEmpty
+        ? widget.book.authors![0].name.split(',').length > 1
+            ? ('${widget.book.authors![0].name.split(',')[1]} ${widget.book.authors![0].name.split(',')[0]}')
+            : widget.book.authors![0].name
+        : 'Anonymous';
     return MediaQuery.removePadding(
       context: context,
       removeTop: true,
@@ -44,7 +54,7 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                 Stack(
                   children: [
                     Image.network(
-                      '${widget.book.formats['image/jpeg'] != null ? widget.book.formats['image/jpeg']?.replaceAll('small', 'medium') : 'https://i.pinimg.com/736x/a6/50/cd/a650cdc389e72a5213be5f05a8fcd9db.jpg'}',
+                      '$image',
                       fit: BoxFit.cover,
                       width: MediaQuery.of(context).size.width,
                       height: 300,
@@ -75,11 +85,7 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                   textAlign: TextAlign.center,
                 ),
                 Text(
-                  widget.book.authors != null && widget.book.authors!.isNotEmpty
-                      ? widget.book.authors![0].name.split(',').length > 1
-                          ? ('${widget.book.authors![0].name.split(',')[1]} ${widget.book.authors![0].name.split(',')[0]}')
-                          : widget.book.authors![0].name
-                      : 'Anonymous',
+                  author,
                   style: Theme.of(context)
                       .textTheme
                       .headline5
@@ -147,7 +153,15 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                               context: context,
                               builder: (BuildContext context) {
                                 return DownloadDialog(
-                                  bookName: widget.book.title,
+                                  book: Book(
+                                      id: widget.book.id,
+                                      image: image ??
+                                          'https://i.pinimg.com/736x/a6/50/cd/a650cdc389e72a5213be5f05a8fcd9db.jpg',
+                                      title: widget.book.title,
+                                      author: author,
+                                      subjects: widget.book.subjects,
+                                      bookShelves: widget.book.bookshelves,
+                                      path: ''),
                                   url: widget.book
                                           .formats['application/epub+zip'] ??
                                       '',

@@ -43,13 +43,13 @@ class DatabaseHelper {
                        isUploaded INTEGER
                        )''');
     await db.execute('''CREATE TABLE $bookTable (
-                       $bookId TEXT PRIMARY KEY,
+                       $bookId INTEGER PRIMARY KEY,
                        image TEXT,
                        title TEXT,
                        author TEXT,
                        subjects TEXT,
                        bookShelves TEXT,
-                       path TEXT,
+                       path TEXT
                        )''');
   }
 
@@ -141,7 +141,7 @@ class DatabaseHelper {
     return _delete(articleTable, articleId, id);
   }
 
-  // All functions for articles.
+  // All functions for books.
   List<Book> parseBooks(List<Map<String, dynamic>> bookList) {
     final books = <Book>[];
     bookList.forEach((bookMap) {
@@ -161,13 +161,16 @@ class DatabaseHelper {
   Future<Book> findBookById(int id) async {
     final db = await instance.streamDatabase;
     final bookList = await db.query(bookTable);
-    final book = parseBooks(bookList).firstWhere((e) => e.id == id.toString());
+    final book = parseBooks(bookList)
+        .firstWhere((e) => e.id == id);
     return book;
   }
 
   Stream<List<Book>> watchAllBooks() async* {
     final db = await instance.streamDatabase;
-    yield* db.createQuery(bookTable).mapToList((row) => Book.fromJson(row));
+    yield* db
+        .createQuery(bookTable)
+        .mapToList((row) => Book.fromJson(row));
   }
 
   Future<int> insertBook(Book book) {
@@ -175,14 +178,11 @@ class DatabaseHelper {
   }
 
   Future<int> updateBook(Book book) async {
-    final db = await instance.streamDatabase;
-    return db.update(bookTable, book.toJson(),
-        where: '$bookId = ?', whereArgs: [book.id]);
+    return _update(bookTable, book.toJson(), bookId, book.id);
   }
 
-  Future<int> deleteBook(String id) async {
-    final db = await instance.streamDatabase;
-    return db.delete(bookTable, where: '$bookId = ?', whereArgs: [id]);
+  Future<int> deleteBook(int id) async {
+    return _delete(bookTable, bookId, id);
   }
 
   void close() {
