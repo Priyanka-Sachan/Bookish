@@ -1,8 +1,13 @@
+import 'package:bookish/models/book.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
 class BookProvider with ChangeNotifier {
+  Stream<List<Book>> watchAllBooks() {
+    return Stream.empty();
+  }
+
   Future<Response<dynamic>> downloadBook(String bookName, String url) async {
     bookName = bookName.replaceAll(' ', '_');
     var tempDir = await getExternalStorageDirectory();
