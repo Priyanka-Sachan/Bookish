@@ -1,5 +1,6 @@
 import 'package:bookish/models/book.dart';
 import 'package:bookish/providers/book_provider.dart';
+import 'package:epub_viewer/epub_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
@@ -11,6 +12,13 @@ class ReadScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    EpubViewer.setConfig(
+      themeColor: Theme.of(context).colorScheme.primary,
+      identifier: "iosBook",
+      scrollDirection: EpubScrollDirection.VERTICAL,
+      allowSharing: true,
+      enableTts: true,
+    );
     final provider = Provider.of<BookProvider>(context, listen: false);
     return Scaffold(
       body: StreamBuilder<List<Book>>(
@@ -24,21 +32,65 @@ class ReadScreen extends StatelessWidget {
                   Text('No books here...')
                 ]);
               } else {
-                return ListView.builder(
-                  itemCount: books.length,
-                  itemBuilder: (BuildContext context, int i) {
-                    return ListTile(
-                      leading: CircleAvatar(
-                        backgroundImage: NetworkImage(books[i].image),
-                      ),
-                      title: Text(books[i].title),
-                      subtitle: Text(books[i].author),
-                    );
-                  },
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                  child: GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 12.0,
+                      mainAxisSpacing: 12.0,
+                      mainAxisExtent: 300,
+                    ),
+                    itemCount: books.length,
+                    itemBuilder: (BuildContext context, int i) {
+                      return InkWell(
+                        onTap: () {
+                          EpubViewer.open(
+                            books[i].path,
+                            // first page will open up if the location value is null
+                          );
+                        },
+                        child: GridTile(
+                          child: Column(
+                            children: [
+                              ClipRRect(
+                                child: Image.network(
+                                  books[i].image,
+                                  fit: BoxFit.cover,
+                                  height: 250,
+                                ),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(8)),
+                              ),
+                              Text(
+                                books[i].title,
+                                style: Theme.of(context).textTheme.bodyText2,
+                                softWrap: true,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                textAlign: TextAlign.center,
+                              ),
+                              Text(
+                                books[i].author,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText2
+                                    ?.copyWith(color: Colors.grey),
+                                softWrap: true,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
                 );
               }
             } else {
-              return CircularProgressIndicator();
+              return Center(child: CircularProgressIndicator());
             }
           }),
     );

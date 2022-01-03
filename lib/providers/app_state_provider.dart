@@ -1,7 +1,5 @@
-import 'package:bookish/models/user.dart';
 import 'package:firebase_auth/firebase_auth.dart'
     show FirebaseAuth, FirebaseAuthException;
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -94,7 +92,7 @@ class AppStateProvider with ChangeNotifier {
     final prefs = await SharedPreferences.getInstance();
     // prefs.remove(User.darkModeKey);
     // prefs.remove('onboarding-completed');
-    bool a = await prefs.clear();
+    await prefs.clear();
     await auth.signOut();
     notifyListeners();
   }

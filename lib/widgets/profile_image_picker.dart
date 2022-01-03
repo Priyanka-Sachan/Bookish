@@ -20,7 +20,7 @@ class _ProfileImagePickerState extends State<ProfileImagePicker> {
 
   Future<void> pickImage() async {
     final picker = ImagePicker();
-    final imageFile = await picker.getImage(source: ImageSource.gallery);
+    final imageFile = await picker.pickImage(source: ImageSource.gallery);
     if (imageFile == null) return;
     profileImage = File(imageFile.path);
     final storageRef = FirebaseStorage.instance
