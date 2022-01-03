@@ -1,8 +1,6 @@
 import 'package:bookish/models/bookish_pages.dart';
-import 'package:bookish/providers/app_state_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget {
   static MaterialPage page() {

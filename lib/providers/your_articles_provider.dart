@@ -3,7 +3,11 @@ import 'package:bookish/models/your_article.dart';
 import 'package:flutter/cupertino.dart';
 
 class YourArticlesProvider with ChangeNotifier {
-  final dbHelper = DatabaseHelper.instance;
+  DatabaseHelper dbHelper = DatabaseHelper.instance;
+
+  void init(DatabaseHelper databaseHelper) {
+    dbHelper = databaseHelper;
+  }
 
   bool _createNewItem = false;
   bool _updatingItem = false;
@@ -14,11 +18,6 @@ class YourArticlesProvider with ChangeNotifier {
   bool get updatingItem => _updatingItem;
 
   YourArticle? get selectedArticle => _selectedArticle;
-
-  Future init() async {
-    await dbHelper.database;
-    return Future.value();
-  }
 
   void createNewItem() {
     _createNewItem = true;

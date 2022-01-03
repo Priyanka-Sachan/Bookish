@@ -1,3 +1,4 @@
+import 'package:bookish/models/book.dart';
 import 'package:bookish/models/your_article.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
@@ -10,6 +11,8 @@ class DatabaseHelper {
 
   static const articleTable = 'Article';
   static const articleId = 'id';
+  static const bookTable = 'Book';
+  static const bookId = 'id';
 
   static late BriteDatabase _streamDatabase;
 
@@ -38,6 +41,15 @@ class DatabaseHelper {
                        body TEXT,
                        timeStamp TEXT,
                        isUploaded INTEGER
+                       )''');
+    await db.execute('''CREATE TABLE $bookTable (
+                       $bookId INTEGER PRIMARY KEY,
+                       image TEXT,
+                       title TEXT,
+                       author TEXT,
+                       subjects TEXT,
+                       bookShelves TEXT,
+                       path TEXT
                        )''');
   }
 
@@ -127,6 +139,50 @@ class DatabaseHelper {
 
   Future<int> deleteArticle(int id) async {
     return _delete(articleTable, articleId, id);
+  }
+
+  // All functions for books.
+  List<Book> parseBooks(List<Map<String, dynamic>> bookList) {
+    final books = <Book>[];
+    bookList.forEach((bookMap) {
+      final book = Book.fromJson(bookMap);
+      books.add(book);
+    });
+    return books;
+  }
+
+  Future<List<Book>> findAllBooks() async {
+    final db = await instance.streamDatabase;
+    final bookList = await db.query(bookTable);
+    final books = parseBooks(bookList);
+    return books;
+  }
+
+  Future<Book> findBookById(int id) async {
+    final db = await instance.streamDatabase;
+    final bookList = await db.query(bookTable);
+    final book = parseBooks(bookList)
+        .firstWhere((e) => e.id == id);
+    return book;
+  }
+
+  Stream<List<Book>> watchAllBooks() async* {
+    final db = await instance.streamDatabase;
+    yield* db
+        .createQuery(bookTable)
+        .mapToList((row) => Book.fromJson(row));
+  }
+
+  Future<int> insertBook(Book book) {
+    return _insert(bookTable, book.toJson());
+  }
+
+  Future<int> updateBook(Book book) async {
+    return _update(bookTable, book.toJson(), bookId, book.id);
+  }
+
+  Future<int> deleteBook(int id) async {
+    return _delete(bookTable, bookId, id);
   }
 
   void close() {

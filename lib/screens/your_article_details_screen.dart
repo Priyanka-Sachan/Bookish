@@ -32,14 +32,14 @@ class YourArticleDetailsScreen extends StatefulWidget {
 class _YourArticleDetailsScreenState extends State<YourArticleDetailsScreen> {
   void uploadArticle() {
     YourArticle yourArticle = widget.yourArticle;
-    String username =
-        Provider.of<ProfileProvider>(context, listen: false).user.username;
+    String userId =
+        Provider.of<ProfileProvider>(context, listen: false).user.uid;
     if (yourArticle.isUploaded) {
       Provider.of<ArticlesProvider>(context, listen: false)
-          .updateArticle(username, yourArticle.article);
+          .updateArticle(userId, yourArticle.article);
     } else {
       Provider.of<ArticlesProvider>(context, listen: false)
-          .saveArticle(username, yourArticle.article);
+          .saveArticle(userId, yourArticle.article);
     }
     Provider.of<YourArticlesProvider>(context, listen: false)
         .uploadItem(widget.yourArticle);
@@ -181,21 +181,29 @@ class _YourArticleDetailsScreenState extends State<YourArticleDetailsScreen> {
                                 Text(article.authorName)
                               ],
                             ),
-                            Stack(
-                              alignment: Alignment.topRight,
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.all(8),
-                                  child: Container(
+                            Expanded(
+                              child: Stack(
+                                alignment: Alignment.topRight,
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.all(8),
+                                    child: Container(
                                       padding: EdgeInsets.all(8),
                                       decoration: BoxDecoration(
                                           color: Colors.grey,
                                           borderRadius:
-                                              BorderRadius.circular(4)),
-                                      child: Text(article.message)),
-                                ),
-                                Icon(Icons.format_quote_rounded)
-                              ],
+                                          BorderRadius.circular(4)),
+                                      child: Text(
+                                        article.message,
+                                        softWrap: true,
+                                        maxLines: 3,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                  ),
+                                  Icon(Icons.format_quote_rounded)
+                                ],
+                              ),
                             ),
                           ],
                         )

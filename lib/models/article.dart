@@ -1,19 +1,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Comment {
+  String id;
   String username;
   String imageUrl;
   String message;
   DateTime timeStamp;
 
   Comment(
-      {required this.username,
+      {required this.id,
+      required this.username,
       required this.imageUrl,
       required this.message,
       required this.timeStamp});
 
   factory Comment.fromJson(Map<String, dynamic> json) {
     return Comment(
+        id: json['id'],
         username: json['username'],
         imageUrl: json['imageUrl'],
         message: json['message'],
@@ -22,6 +25,7 @@ class Comment {
 
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
+      'id': id,
       'username': username,
       'imageUrl': imageUrl,
       'message': message,

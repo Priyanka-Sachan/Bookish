@@ -58,7 +58,10 @@ class BookThumbnail extends StatelessWidget {
                       children: [
                         Text(
                           book.title,
-                          style: Theme.of(context).textTheme.headline6,
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline6
+                              ?.copyWith(color: Colors.black),
                           softWrap: true,
                           textAlign: TextAlign.center,
                           maxLines: 3,
@@ -83,11 +86,20 @@ class BookThumbnail extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(Icons.download),
-                            Text(book.downloadCount != 0
-                                ? book.downloadCount.toString()
-                                : '--'),
-                            Text(' |'),
+                            Icon(
+                              Icons.download,
+                              color: Colors.black,
+                            ),
+                            Text(
+                              book.downloadCount != 0
+                                  ? book.downloadCount.toString()
+                                  : '--',
+                              style: TextStyle(color: Colors.black),
+                            ),
+                            Text(
+                              ' |',
+                              style: TextStyle(color: Colors.black),
+                            ),
                             ...book.languages.map((l) => Text(
                                   ' ${l.toUpperCase()}',
                                   style: TextStyle(color: Colors.black),
@@ -103,12 +115,9 @@ class BookThumbnail extends StatelessWidget {
                                 padding: EdgeInsets.zero,
                                 label: Text(bk),
                                 shape: StadiumBorder(side: BorderSide()),
-                                labelStyle: TextStyle(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .secondary),
+                                labelStyle: TextStyle(color: Colors.black),
                                 selected: true,
-                                selectedColor: Colors.transparent,
+                                selectedColor: Colors.white,
                                 onSelected: (_) {},
                               ),
                             )
