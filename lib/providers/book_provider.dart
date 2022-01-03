@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bookish/database/database_helper.dart';
 import 'package:bookish/models/book.dart';
 import 'package:dio/dio.dart';
@@ -11,8 +13,17 @@ class BookProvider with ChangeNotifier {
     dbHelper = databaseHelper;
   }
 
-  Future<int> deleteBook(int id) {
-    return dbHelper.deleteBook(id);
+  void deleteBook(Book book) async {
+    await dbHelper.deleteBook(book.id);
+    File file = File(book.path);
+    try {
+      if (await file.exists()) {
+        await file.delete();
+      }
+    } catch (e) {
+      print('ERROR ON DELETE: $e');
+      await dbHelper.insertBook(book);
+    }
   }
 
   Future<List<Book>> findAllBooks() {
@@ -29,11 +40,12 @@ class BookProvider with ChangeNotifier {
     String fullPath = '${tempDir?.path}/$bookName.epub';
     book.path = fullPath;
     print('Saved at $fullPath');
-    await insertBook(book);
     var dio = Dio();
-    return dio.download(url, fullPath, onReceiveProgress: (received, total) {
+    return dio.download(url, fullPath,
+        onReceiveProgress: (received, total) async {
       if (total != -1) {
         print((received / total * 100).toStringAsFixed(0) + "%");
+        if (total == received) await insertBook(book);
       }
     });
   }

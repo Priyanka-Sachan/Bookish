@@ -27,8 +27,9 @@ class _DownloadDialogState extends State<DownloadDialog> {
             if (snapshot.connectionState == ConnectionState.done) {
               if (snapshot.hasError) {
                 return Text('An unknown error occurred.');
-              } else
+              } else {
                 return Text('Downloaded Successfully!');
+              }
             } else {
               return LinearProgressIndicator();
             }
