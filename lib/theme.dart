@@ -20,7 +20,7 @@ class BookishTheme {
       ),
       headline4: GoogleFonts.sourceSerifPro(
         fontSize: 24.0,
-        fontWeight: FontWeight.w600,
+        fontWeight: FontWeight.w400,
         color: Colors.black,
       ),
       headline5: GoogleFonts.sourceSerifPro(
@@ -62,7 +62,7 @@ class BookishTheme {
       ),
       headline4: GoogleFonts.sourceSerifPro(
         fontSize: 24.0,
-        fontWeight: FontWeight.w600,
+        fontWeight: FontWeight.w400,
         color: Colors.white,
       ),
       headline5: GoogleFonts.sourceSerifPro(

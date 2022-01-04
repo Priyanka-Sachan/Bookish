@@ -157,6 +157,7 @@ class _ArticleDetailsScreenState extends State<ArticleDetailsScreen> {
                                                             4)),
                                                 child: Text(
                                                   article.message,
+                                                  style: Theme.of(context).textTheme.bodyText1,
                                                   softWrap: true,
                                                   maxLines: 3,
                                                   overflow:

@@ -1,6 +1,11 @@
+import 'package:bookish/models/article.dart';
 import 'package:bookish/models/your_article.dart';
 import 'package:bookish/providers/your_articles_provider.dart';
-import 'package:bookish/widgets/your_article_section.dart';
+import 'package:bookish/widgets/editorial_card.dart';
+import 'package:bookish/widgets/review_card.dart';
+import 'package:bookish/widgets/special_card.dart';
+import 'package:bookish/widgets/story_card.dart';
+import 'package:bookish/widgets/upcoming_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -28,10 +33,15 @@ class _YourArticlesScreenState extends State<YourArticlesScreen> {
             if (snapshot.connectionState == ConnectionState.active) {
               final yourArticles = snapshot.data ?? [];
               if (yourArticles.isEmpty) {
-                return Column(children: [
-                  Image.asset('assets/images/add_article.png'),
-                  Text('No articles here...')
-                ]);
+                return Center(
+                  child: Column(children: [
+                    Image.asset('assets/images/add_article.png'),
+                    Text(
+                      'No articles here...',
+                      style: Theme.of(context).textTheme.headline5,
+                    )
+                  ]),
+                );
               } else {
                 final uploadedArticles =
                     yourArticles.where((e) => e.isUploaded).toList();
@@ -43,12 +53,16 @@ class _YourArticlesScreenState extends State<YourArticlesScreen> {
                         ? Text('Uploaded articles',
                             style: Theme.of(context).textTheme.headline3)
                         : SizedBox(),
-                    YourArticleSection(yourArticles: uploadedArticles),
+                    ...uploadedArticles
+                        .map((yourArticle) => articleCard(yourArticle))
+                        .toList(),
                     inProgressArticles.isNotEmpty
                         ? Text('In Progress articles',
                             style: Theme.of(context).textTheme.headline3)
                         : SizedBox(),
-                    YourArticleSection(yourArticles: inProgressArticles),
+                    ...inProgressArticles
+                        .map((yourArticle) => articleCard(yourArticle))
+                        .toList(),
                   ],
                 );
               }
@@ -57,5 +71,24 @@ class _YourArticlesScreenState extends State<YourArticlesScreen> {
             }
           }),
     );
+  }
+
+  Widget articleCard(YourArticle yourArticle) {
+    return GestureDetector(
+        onTap: () {
+          Provider.of<YourArticlesProvider>(context, listen: false)
+              .tapItem(yourArticle);
+        },
+        child: (yourArticle.article.type == ArticleType.editorial)
+            ? EditorialCard(article: yourArticle.article)
+            : ((yourArticle.article.type == ArticleType.review)
+                ? ReviewCard(article: yourArticle.article)
+                : ((yourArticle.article.type == ArticleType.upcoming)
+                    ? UpcomingCard(article: yourArticle.article)
+                    : ((yourArticle.article.type == ArticleType.special)
+                        ? SpecialCard(article: yourArticle.article)
+                        : ((yourArticle.article.type == ArticleType.story)
+                            ? StoryCard(article: yourArticle.article)
+                            : SizedBox())))));
   }
 }

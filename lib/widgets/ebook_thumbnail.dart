@@ -34,7 +34,7 @@ class EbookThumbnail extends StatelessWidget {
         showDialog(
           context: context,
           builder: (BuildContext context) => SimpleDialog(
-            title: Text(book.title),
+            title: Text(book.title,style: Theme.of(context).textTheme.headline4,),
             children: [
               TextFieldTags(
                   initialTags: book.bookShelves,
@@ -101,13 +101,13 @@ class EbookThumbnail extends StatelessWidget {
               child: Image.network(
                 book.image,
                 fit: BoxFit.cover,
-                height: 250,
+                height: 248,
               ),
               borderRadius: BorderRadius.all(Radius.circular(8)),
             ),
             Text(
               book.title,
-              style: Theme.of(context).textTheme.bodyText2,
+              style: Theme.of(context).textTheme.bodyText1,
               softWrap: true,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
