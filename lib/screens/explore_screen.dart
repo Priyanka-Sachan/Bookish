@@ -1,4 +1,5 @@
 import 'package:bookish/network/genre.dart';
+import 'package:bookish/screens/ebook_webview_screen.dart';
 import 'package:bookish/screens/explore_genre_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -37,9 +38,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
           Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => ExploreGenreScreen(
-                      genre: '',
-                    )),
+                builder: (context) => EbookWebviewScreen()),
           );
         },
         child: Icon(Icons.lock_open_rounded),

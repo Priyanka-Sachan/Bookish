@@ -3,7 +3,6 @@ import 'package:bookish/providers/book_provider.dart';
 import 'package:bookish/widgets/ebook_thumbnail.dart';
 import 'package:epub_viewer/epub_viewer.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
 class ReadScreen extends StatelessWidget {
@@ -29,7 +28,7 @@ class ReadScreen extends StatelessWidget {
               final books = snapshot.data ?? [];
               if (books.isEmpty) {
                 return Column(children: [
-                  SvgPicture.asset('assets/images/add_article.svg'),
+                  Image.asset('assets/images/add_article.png'),
                   Text('No books here...')
                 ]);
               } else {

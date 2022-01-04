@@ -35,17 +35,20 @@ class BookProvider with ChangeNotifier {
   }
 
   Future<Response<dynamic>> downloadBook(Book book, String url) async {
-    String bookName = book.title.replaceAll(' ', '_');
+    String bookName = DateTime.now().millisecondsSinceEpoch.toString();
     var tempDir = await getExternalStorageDirectory();
     String fullPath = '${tempDir?.path}/$bookName.epub';
-    book.path = fullPath;
+    book.path=fullPath;
     print('Saved at $fullPath');
     var dio = Dio();
     return dio.download(url, fullPath,
         onReceiveProgress: (received, total) async {
       if (total != -1) {
         print((received / total * 100).toStringAsFixed(0) + "%");
-        if (total == received) await insertBook(book);
+        if (total == received) {
+          print(book.title);
+          await insertBook(book);
+        }
       }
     });
   }

@@ -2,7 +2,6 @@ import 'package:bookish/models/your_article.dart';
 import 'package:bookish/providers/your_articles_provider.dart';
 import 'package:bookish/widgets/your_article_section.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
 class YourArticlesScreen extends StatefulWidget {
@@ -30,7 +29,7 @@ class _YourArticlesScreenState extends State<YourArticlesScreen> {
               final yourArticles = snapshot.data ?? [];
               if (yourArticles.isEmpty) {
                 return Column(children: [
-                  SvgPicture.asset('assets/images/add_article.svg'),
+                  Image.asset('assets/images/add_article.png'),
                   Text('No articles here...')
                 ]);
               } else {
