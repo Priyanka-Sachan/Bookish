@@ -15,7 +15,11 @@ class UpcomingCard extends StatelessWidget {
         borderRadius: BorderRadius.all(
           Radius.circular(4),
         ),
-        border: Border.all(color: Colors.grey, width: 2),
+        border: Border.all(
+            color: Theme.of(context).brightness == Brightness.light
+                ? Colors.black
+                : Colors.white,
+            width: 2),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -23,6 +27,10 @@ class UpcomingCard extends StatelessWidget {
           Text(
             article.title,
             style: Theme.of(context).textTheme.headline5,
+            softWrap: true,
+            textAlign: TextAlign.center,
+            maxLines: 3,
+            overflow: TextOverflow.fade,
           ),
           ClipRRect(
             borderRadius: BorderRadius.circular(4.0),

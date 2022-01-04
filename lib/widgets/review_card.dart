@@ -10,7 +10,7 @@ class ReviewCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+      padding: EdgeInsets.fromLTRB(8, 8, 8, 16),
       margin: EdgeInsets.all(8),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(
@@ -29,19 +29,45 @@ class ReviewCard extends StatelessWidget {
             ),
           ),
           Text(
-            article.title.toUpperCase(),
+            article.title,
             style: Theme.of(context)
                 .textTheme
                 .headline5
                 ?.copyWith(color: Colors.black),
+            softWrap: true,
+            textAlign: TextAlign.center,
+            maxLines: 2,
+            overflow: TextOverflow.fade,
           ),
-          Text(
-            '${DateFormat.yMMMd().format(article.timeStamp).toUpperCase()} BY ${article.authorName.toUpperCase()}',
-            style: Theme.of(context)
-                .textTheme
-                .headline6
-                ?.copyWith(color: Colors.white),
-          )
+          Wrap(
+            children: [
+              Text(
+                DateFormat.yMMMd().format(article.timeStamp).toUpperCase(),
+                style: Theme.of(context)
+                    .textTheme
+                    .headline6
+                    ?.copyWith(color: Colors.white),
+              ),
+              Text(
+                ' BY ',
+                style: Theme.of(context)
+                    .textTheme
+                    .headline6
+                    ?.copyWith(color: Colors.white60),
+              ),
+              Text(
+                article.authorName.toUpperCase(),
+                style: Theme.of(context)
+                    .textTheme
+                    .headline6
+                    ?.copyWith(color: Colors.white),
+                softWrap: true,
+                textAlign: TextAlign.center,
+                maxLines: 1,
+                overflow: TextOverflow.fade,
+              )
+            ],
+          ),
         ],
       ),
     );

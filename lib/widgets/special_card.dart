@@ -46,13 +46,27 @@ class SpecialCard extends StatelessWidget {
               ],
             ),
           ),
-          Text(
-            article.title,
-            style: Theme.of(context).textTheme.headline5,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Text(
+              article.title,
+              style: Theme.of(context).textTheme.headline5,
+              softWrap: true,
+              textAlign: TextAlign.center,
+              maxLines: 2,
+              overflow: TextOverflow.fade,
+            ),
           ),
-          Text(
-            'By ${article.authorName} ${DateFormat.yMMMd().format(article.timeStamp)}',
-            style: Theme.of(context).textTheme.headline6,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Text(
+              'by ${article.authorName} on ${DateFormat.yMMMd().format(article.timeStamp)}',
+              style: Theme.of(context).textTheme.headline6,
+              softWrap: true,
+              textAlign: TextAlign.center,
+              maxLines: 1,
+              overflow: TextOverflow.fade,
+            ),
           )
         ],
       ),

@@ -38,6 +38,10 @@ class StoryCard extends StatelessWidget {
                 .textTheme
                 .headline5
                 ?.copyWith(color: Colors.black),
+            softWrap: true,
+            textAlign: TextAlign.center,
+            maxLines: 3,
+            overflow: TextOverflow.fade,
           ),
           ClipRRect(
             borderRadius: BorderRadius.circular(4.0),
@@ -52,8 +56,27 @@ class StoryCard extends StatelessWidget {
                 .textTheme
                 .bodyText1
                 ?.copyWith(color: Colors.black),
+            softWrap: true,
+            textAlign: TextAlign.center,
+            maxLines: 4,
+            overflow: TextOverflow.fade,
           ),
-          OutlinedButton(onPressed: null, child: Text('READ MORE'))
+          SizedBox(
+            height: 8,
+          ),
+          Container(
+            padding: EdgeInsets.symmetric(vertical: 2, horizontal: 8),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(4)),
+                border: Border.all(color: Colors.black54)),
+            child: Text(
+              'KNOW MORE',
+              style: Theme.of(context)
+                  .textTheme
+                  .headline5
+                  ?.copyWith(color: Colors.black54),
+            ),
+          ),
         ],
       ),
     );
