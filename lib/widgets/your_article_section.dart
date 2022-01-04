@@ -3,6 +3,9 @@ import 'package:bookish/models/your_article.dart';
 import 'package:bookish/providers/your_articles_provider.dart';
 import 'package:bookish/widgets/editorial_card.dart';
 import 'package:bookish/widgets/review_card.dart';
+import 'package:bookish/widgets/special_card.dart';
+import 'package:bookish/widgets/story_card.dart';
+import 'package:bookish/widgets/upcoming_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -24,18 +27,26 @@ class YourArticleSection extends StatelessWidget {
               itemBuilder: (ctx, i) {
                 return GestureDetector(
                     onTap: () {
-                      Provider.of<YourArticlesProvider>(context, listen: false).tapItem(yourArticles[i]);
+                      Provider.of<YourArticlesProvider>(context, listen: false)
+                          .tapItem(yourArticles[i]);
                     },
                     child: (yourArticles[i].article.type ==
                             ArticleType.editorial)
                         ? EditorialCard(article: yourArticles[i].article)
                         : ((yourArticles[i].article.type == ArticleType.review)
                             ? ReviewCard(article: yourArticles[i].article)
-                            : (yourArticles[i].article.type ==
+                            : ((yourArticles[i].article.type ==
                                     ArticleType.upcoming)
-                                ? EditorialCard(
-                                    article: yourArticles[i].article)
-                                : SizedBox()));
+                                ? UpcomingCard(article: yourArticles[i].article)
+                                : ((yourArticles[i].article.type ==
+                                        ArticleType.special)
+                                    ? SpecialCard(
+                                        article: yourArticles[i].article)
+                                    : ((yourArticles[i].article.type ==
+                                            ArticleType.story)
+                                        ? StoryCard(
+                                            article: yourArticles[i].article)
+                                        : SizedBox())))));
               },
             ),
           )

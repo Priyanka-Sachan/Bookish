@@ -165,7 +165,7 @@ class _AddArticleScreenState extends State<AddArticleScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: ListView(
           children: [
-            Row(
+            Wrap(
               children: [
                 ChoiceChip(
                   label: Text('Editorial'),
@@ -212,6 +212,40 @@ class _AddArticleScreenState extends State<AddArticleScreen> {
                   onSelected: (bool newValue) {
                     setState(() {
                       _type = "upcoming";
+                    });
+                  },
+                ),
+                SizedBox(
+                  width: 4,
+                ),
+                ChoiceChip(
+                  label: Text('Special'),
+                  selected: _type == "special",
+                  backgroundColor: Colors.transparent,
+                  shape: StadiumBorder(side: BorderSide()),
+                  selectedColor: Theme.of(context).colorScheme.primary,
+                  labelStyle:
+                      TextStyle(color: Theme.of(context).colorScheme.secondary),
+                  onSelected: (bool newValue) {
+                    setState(() {
+                      _type = "special";
+                    });
+                  },
+                ),
+                SizedBox(
+                  width: 4,
+                ),
+                ChoiceChip(
+                  label: Text('Story'),
+                  selected: _type == "story",
+                  backgroundColor: Colors.transparent,
+                  shape: StadiumBorder(side: BorderSide()),
+                  selectedColor: Theme.of(context).colorScheme.primary,
+                  labelStyle:
+                      TextStyle(color: Theme.of(context).colorScheme.secondary),
+                  onSelected: (bool newValue) {
+                    setState(() {
+                      _type = "story";
                     });
                   },
                 )

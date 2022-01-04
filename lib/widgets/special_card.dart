@@ -2,10 +2,10 @@ import 'package:bookish/models/article.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class EditorialCard extends StatelessWidget {
+class SpecialCard extends StatelessWidget {
   final Article article;
 
-  EditorialCard({required this.article});
+  const SpecialCard({Key? key, required this.article}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,39 +29,30 @@ class EditorialCard extends StatelessWidget {
                 ),
                 Positioned.fill(
                   child: Container(
-                    alignment: Alignment.center,
-                    color: Colors.black54,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        OutlinedButton(
-                            onPressed: null, child: Text('EDITORIAL')),
-                        Text(
-                          article.title,
+                      alignment: Alignment.topRight,
+                      color: Colors.white54,
+                      child: Container(
+                        padding: EdgeInsets.all(6),
+                        color: Colors.white,
+                        child: Text(
+                          'SPECIAL THIS MORNING',
                           style: Theme.of(context)
                               .textTheme
-                              .headline5
-                              ?.copyWith(color: Colors.white),
+                              .bodyText1
+                              ?.copyWith(color: Colors.black),
                         ),
-                        Text(
-                          article.subtitle,
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline6
-                              ?.copyWith(color: Colors.white54),
-                        ),
-                      ],
-                    ),
-                  ),
+                      )),
                 ),
               ],
             ),
           ),
           Text(
+            article.title,
+            style: Theme.of(context).textTheme.headline5,
+          ),
+          Text(
             'By ${article.authorName} ${DateFormat.yMMMd().format(article.timeStamp)}',
-            style: Theme.of(context)
-                .textTheme
-                .headline6,
+            style: Theme.of(context).textTheme.headline6,
           )
         ],
       ),
