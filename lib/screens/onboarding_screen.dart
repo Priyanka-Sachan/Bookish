@@ -79,7 +79,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           'Read with comfort of mobile and feeling of home!',
         ),
         onboardPageView(
-          'assets/images/os3.svg',
+          'assets/images/os3.png',
           'Keep track of what you need to read',
         ),
       ],
