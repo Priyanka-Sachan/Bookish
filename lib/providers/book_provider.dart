@@ -8,6 +8,9 @@ import 'package:path_provider/path_provider.dart';
 
 class BookProvider with ChangeNotifier {
   DatabaseHelper dbHelper = DatabaseHelper.instance;
+  bool _isDownloading = false;
+
+  bool get isDownloading => _isDownloading;
 
   void init(DatabaseHelper databaseHelper) {
     dbHelper = databaseHelper;
@@ -34,23 +37,26 @@ class BookProvider with ChangeNotifier {
     return dbHelper.findBookById(id);
   }
 
-  Future<Response<dynamic>> downloadBook(Book book, String url) async {
+  void downloadBook(Book book, String url) async {
+    _isDownloading = true;
     String bookName = DateTime.now().millisecondsSinceEpoch.toString();
     var tempDir = await getExternalStorageDirectory();
     String fullPath = '${tempDir?.path}/$bookName.epub';
-    book.path=fullPath;
+    book.path = fullPath;
     print('Saved at $fullPath');
-    var dio = Dio();
-    return dio.download(url, fullPath,
-        onReceiveProgress: (received, total) async {
-      if (total != -1) {
-        print((received / total * 100).toStringAsFixed(0) + "%");
-        if (total == received) {
-          print(book.title);
-          await insertBook(book);
+    try {
+      var dio = Dio();
+      await dio.download(url, fullPath,
+          onReceiveProgress: (received, total) async {
+        if (total != -1) {
+          print((received / total * 100).toStringAsFixed(0) + "%");
         }
-      }
-    });
+      });
+      await insertBook(book);
+    } catch (e) {
+      print('ERROR: $e');
+    }
+    _isDownloading = false;
   }
 
   Future<int> insertBook(Book book) {

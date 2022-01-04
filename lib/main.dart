@@ -14,6 +14,8 @@ import 'dart:async';
 import 'dart:io';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
+import 'navigation/navigation_service.dart';
+
 Future<void> main() async {
   _setupLogging();
   WidgetsFlutterBinding.ensureInitialized();
@@ -89,6 +91,7 @@ class _BookishAppState extends State<BookishApp> {
         else
           theme = BookishTheme.light();
         return MaterialApp(
+          navigatorKey: NavigationService.navigatorKey,
           theme: theme,
           title: 'Bookish',
           home: Router(
