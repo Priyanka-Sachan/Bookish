@@ -47,7 +47,6 @@ class DatabaseHelper {
                        image TEXT,
                        title TEXT,
                        author TEXT,
-                       subjects TEXT,
                        bookShelves TEXT,
                        path TEXT
                        )''');

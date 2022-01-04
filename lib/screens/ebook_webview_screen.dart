@@ -153,15 +153,12 @@ class _EbookWebviewScreenState extends State<EbookWebviewScreen> {
                         });
                       },
                       onDownloadStart: (controller, uri) async {
-                        print('HERE IS THE DOWNLOADING URI!!!!!!!!!!!!$uri');
                         final metaTags = await controller.getMetaTags();
                         String title = 'Not available',
                             author = 'Anonymous',
                             image =
                                 'https://i.pinimg.com/736x/a6/50/cd/a650cdc389e72a5213be5f05a8fcd9db.jpg';
                         metaTags.forEach((mt) {
-                          print(
-                              'Name: ${mt.name} Attributes: ${mt.attrs?.join(' | ')} Content: ${mt.content}');
                           mt.attrs?.forEach((e) {
                             if (e.name == 'property' && e.value == 'og:title') {
                               String content = mt.content!;
@@ -191,11 +188,8 @@ class _EbookWebviewScreenState extends State<EbookWebviewScreen> {
                             image: image,
                             title: title,
                             author: author,
-                            subjects: [],
                             bookShelves: [],
                             path: '');
-                        // Provider.of<BookProvider>(context, listen: false)
-                        //     .downloadBook(book, url);
                         showDialog(
                             context: context,
                             builder: (BuildContext context) {
