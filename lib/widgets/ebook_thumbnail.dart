@@ -1,5 +1,6 @@
 import 'package:bookish/models/book.dart';
 import 'package:bookish/providers/book_provider.dart';
+import 'package:bookish/widgets/ebook_dialog.dart';
 import 'package:epub_viewer/epub_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -19,80 +20,14 @@ class EbookThumbnail extends StatelessWidget {
       );
     }
 
-    void deleteEbook() {
-      Provider.of<BookProvider>(context, listen: false).deleteBook(book);
-      Navigator.of(context, rootNavigator: true).pop('dialog');
-    }
-
-    void updateEbook() {
-      Provider.of<BookProvider>(context, listen: false).updateBook(book);
-    }
-
     return GestureDetector(
       onTap: openEbook,
       onLongPress: () {
         showDialog(
-          context: context,
-          builder: (BuildContext context) => SimpleDialog(
-            title: Text(book.title),
-            children: [
-              TextFieldTags(
-                  initialTags: book.bookShelves,
-                  textSeparators: [","],
-                  textFieldStyler: TextFieldStyler(
-                      hintText: 'Add to bookshelf',
-                      helperText: '',
-                      helperStyle: TextStyle(
-                          color: Theme.of(context).colorScheme.primary),
-                      textFieldBorder: InputBorder.none,
-                      textFieldFocusedBorder: InputBorder.none,
-                      textFieldDisabledBorder: InputBorder.none,
-                      textFieldEnabledBorder: InputBorder.none),
-                  tagsStyler: TagsStyler(
-                      tagPadding: const EdgeInsets.all(8.0),
-                      tagDecoration: BoxDecoration(
-                          border: Border.all(
-                              color: Theme.of(context).colorScheme.secondary,
-                              width: 2),
-                          borderRadius:
-                              BorderRadiusDirectional.all(Radius.circular(8))),
-                      tagCancelIcon: const Icon(Icons.cancel,
-                          size: 18.0, color: Colors.grey)),
-                  onTag: (tag) {
-                    book.bookShelves.add(tag);
-                    updateEbook();
-                  },
-                  onDelete: (tag) {
-                    updateEbook();
-                    book.bookShelves.remove(tag);
-                  },
-                  validator: (tag) {
-                    if (tag.length > 32) {
-                      return "Hey that's too long";
-                    }
-                    if (book.bookShelves.contains(tag)) {
-                      return "Bookshelf already added";
-                    }
-                    return null;
-                  }),
-              ListTile(
-                title: Text('Read'),
-                onTap: () {
-                  Navigator.of(context, rootNavigator: true).pop('dialog');
-                  openEbook();
-                },
-              ),
-              ListTile(
-                title: Text('Rename'),
-                onTap: () {},
-              ),
-              ListTile(
-                title: Text('Delete'),
-                onTap: deleteEbook,
-              ),
-            ],
-          ),
-        );
+            context: context,
+            builder: (BuildContext context) => EbookDialog(
+                  book: book,
+                ));
       },
       child: GridTile(
         child: Column(
@@ -101,13 +36,13 @@ class EbookThumbnail extends StatelessWidget {
               child: Image.network(
                 book.image,
                 fit: BoxFit.cover,
-                height: 250,
+                height: 248,
               ),
               borderRadius: BorderRadius.all(Radius.circular(8)),
             ),
             Text(
               book.title,
-              style: Theme.of(context).textTheme.bodyText2,
+              style: Theme.of(context).textTheme.bodyText1,
               softWrap: true,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,

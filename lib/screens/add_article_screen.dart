@@ -44,6 +44,7 @@ class AddArticleScreen extends StatefulWidget {
 }
 
 class _AddArticleScreenState extends State<AddArticleScreen> {
+  final _imageController = TextEditingController();
   final _titleController = TextEditingController();
   final _subtitleController = TextEditingController();
   final _messageController = TextEditingController();
@@ -52,8 +53,7 @@ class _AddArticleScreenState extends State<AddArticleScreen> {
   String _type = "";
   String _title = "";
   String _subtitle = "";
-  String _backgroundImage =
-      "https://images.unsplash.com/photo-1531988042231-d39a9cc12a9a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjB8fGJvb2tzfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60";
+  String _backgroundImage = "";
   String _message = "";
   String _authorName = "Anonymous";
   String _authorImage =
@@ -74,11 +74,14 @@ class _AddArticleScreenState extends State<AddArticleScreen> {
       _subtitle = originalItem.article.subtitle;
       _backgroundImage = originalItem.article.backgroundImage;
       _message = originalItem.article.message;
+      _authorName = originalItem.article.authorName;
+      _authorImage = originalItem.article.authorImage;
       _body = originalItem.article.body;
       _tags = originalItem.article.tags;
       _timeStamp = originalItem.article.timeStamp;
       _isUploaded = originalItem.isUploaded;
 
+      _imageController.text = _backgroundImage;
       _titleController.text = _title;
       _subtitleController.text = _subtitle;
       _messageController.text = _message;
@@ -88,6 +91,11 @@ class _AddArticleScreenState extends State<AddArticleScreen> {
       _authorName = user.username;
       _authorImage = user.profileImageUrl;
     }
+    _imageController.addListener(() {
+      setState(() {
+        _backgroundImage = _imageController.text;
+      });
+    });
     _titleController.addListener(() {
       setState(() {
         _title = _titleController.text;
@@ -143,6 +151,7 @@ class _AddArticleScreenState extends State<AddArticleScreen> {
 
   @override
   void dispose() {
+    _imageController.dispose();
     _titleController.dispose();
     _subtitleController.dispose();
     _messageController.dispose();
@@ -165,7 +174,7 @@ class _AddArticleScreenState extends State<AddArticleScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: ListView(
           children: [
-            Row(
+            Wrap(
               children: [
                 ChoiceChip(
                   label: Text('Editorial'),
@@ -214,8 +223,52 @@ class _AddArticleScreenState extends State<AddArticleScreen> {
                       _type = "upcoming";
                     });
                   },
+                ),
+                SizedBox(
+                  width: 4,
+                ),
+                ChoiceChip(
+                  label: Text('Special'),
+                  selected: _type == "special",
+                  backgroundColor: Colors.transparent,
+                  shape: StadiumBorder(side: BorderSide()),
+                  selectedColor: Theme.of(context).colorScheme.primary,
+                  labelStyle:
+                      TextStyle(color: Theme.of(context).colorScheme.secondary),
+                  onSelected: (bool newValue) {
+                    setState(() {
+                      _type = "special";
+                    });
+                  },
+                ),
+                SizedBox(
+                  width: 4,
+                ),
+                ChoiceChip(
+                  label: Text('Story'),
+                  selected: _type == "story",
+                  backgroundColor: Colors.transparent,
+                  shape: StadiumBorder(side: BorderSide()),
+                  selectedColor: Theme.of(context).colorScheme.primary,
+                  labelStyle:
+                      TextStyle(color: Theme.of(context).colorScheme.secondary),
+                  onSelected: (bool newValue) {
+                    setState(() {
+                      _type = "story";
+                    });
+                  },
                 )
               ],
+            ),
+            SizedBox(
+              height: 16,
+            ),
+            TextFormField(
+              controller: _imageController,
+              decoration: InputDecoration(
+                hintText: 'Image URL',
+                border: OutlineInputBorder(),
+              ),
             ),
             SizedBox(
               height: 16,
@@ -241,7 +294,7 @@ class _AddArticleScreenState extends State<AddArticleScreen> {
             TextFormField(
               controller: _bodyController,
               keyboardType: TextInputType.multiline,
-              minLines: 16,
+              minLines: 24,
               maxLines: null,
               textAlignVertical: TextAlignVertical.top,
               decoration: InputDecoration(
@@ -254,6 +307,7 @@ class _AddArticleScreenState extends State<AddArticleScreen> {
             ),
             TextFieldTags(
                 initialTags: _tags,
+                textSeparators: [','],
                 textFieldStyler: TextFieldStyler(
                     helperText: '',
                     helperStyle:

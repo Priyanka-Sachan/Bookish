@@ -3,80 +3,88 @@ import 'package:google_fonts/google_fonts.dart';
 
 class BookishTheme {
   static TextTheme lightTextTheme = TextTheme(
-    bodyText1: GoogleFonts.openSans(
-      fontSize: 14.0,
-      fontWeight: FontWeight.w700,
-      color: Colors.black,
-    ),
-    headline1: GoogleFonts.openSans(
-      fontSize: 48.0,
-      fontWeight: FontWeight.bold,
-      color: Colors.black,
-    ),
-    headline2: GoogleFonts.openSans(
-      fontSize: 40.0,
-      fontWeight: FontWeight.w700,
-      color: Colors.black,
-    ),
-    headline3: GoogleFonts.openSans(
-      fontSize: 32.0,
-      fontWeight: FontWeight.w600,
-      color: Colors.black,
-    ),
-    headline4: GoogleFonts.openSans(
-      fontSize: 24.0,
-      fontWeight: FontWeight.w600,
-      color: Colors.black,
-    ),
-    headline5: GoogleFonts.openSans(
-      fontSize: 20.0,
-      fontWeight: FontWeight.w600,
-      color: Colors.black,
-    ),
-    headline6: GoogleFonts.openSans(
-      fontSize: 16.0,
-      fontWeight: FontWeight.w600,
-      color: Colors.black,
-    ),
-  );
+      headline1: GoogleFonts.sourceSerifPro(
+        fontSize: 48.0,
+        fontWeight: FontWeight.w400,
+        color: Colors.black,
+      ),
+      headline2: GoogleFonts.sourceSerifPro(
+        fontSize: 40.0,
+        fontWeight: FontWeight.w400,
+        color: Colors.black,
+      ),
+      headline3: GoogleFonts.sourceSerifPro(
+        fontSize: 32.0,
+        fontWeight: FontWeight.w400,
+        color: Colors.black,
+      ),
+      headline4: GoogleFonts.sourceSerifPro(
+        fontSize: 24.0,
+        fontWeight: FontWeight.w400,
+        color: Colors.black,
+      ),
+      headline5: GoogleFonts.sourceSerifPro(
+        fontSize: 20.0,
+        fontWeight: FontWeight.w400,
+        color: Colors.black,
+      ),
+      headline6: GoogleFonts.sourceSerifPro(
+        fontSize: 16.0,
+        fontWeight: FontWeight.w400,
+        color: Colors.black,
+      ),
+      bodyText1: GoogleFonts.sourceSerifPro(
+        fontSize: 14.0,
+        fontWeight: FontWeight.w400,
+        color: Colors.black,
+      ),
+      bodyText2: GoogleFonts.sourceSerifPro(
+        fontSize: 12.0,
+        fontWeight: FontWeight.w400,
+        color: Colors.black,
+      ));
 
   static TextTheme darkTextTheme = TextTheme(
-    bodyText1: GoogleFonts.openSans(
-      fontSize: 14.0,
-      fontWeight: FontWeight.w700,
-      color: Colors.white,
-    ),
-    headline1: GoogleFonts.openSans(
-      fontSize: 48.0,
-      fontWeight: FontWeight.bold,
-      color: Colors.white,
-    ),
-    headline2: GoogleFonts.openSans(
-      fontSize: 40.0,
-      fontWeight: FontWeight.w700,
-      color: Colors.white,
-    ),
-    headline3: GoogleFonts.openSans(
-      fontSize: 32.0,
-      fontWeight: FontWeight.w600,
-      color: Colors.white,
-    ),
-    headline4: GoogleFonts.openSans(
-      fontSize: 24.0,
-      fontWeight: FontWeight.w600,
-      color: Colors.white,
-    ),
-    headline5: GoogleFonts.openSans(
-      fontSize: 20.0,
-      fontWeight: FontWeight.w600,
-      color: Colors.white,
-    ),
-    headline6: GoogleFonts.openSans(
-      fontSize: 16.0,
-      fontWeight: FontWeight.w600,
-      color: Colors.white,
-    ),
-  );
+      headline1: GoogleFonts.sourceSerifPro(
+        fontSize: 48.0,
+        fontWeight: FontWeight.w400,
+        color: Colors.white,
+      ),
+      headline2: GoogleFonts.sourceSerifPro(
+        fontSize: 40.0,
+        fontWeight: FontWeight.w400,
+        color: Colors.white,
+      ),
+      headline3: GoogleFonts.sourceSerifPro(
+        fontSize: 32.0,
+        fontWeight: FontWeight.w400,
+        color: Colors.white,
+      ),
+      headline4: GoogleFonts.sourceSerifPro(
+        fontSize: 24.0,
+        fontWeight: FontWeight.w400,
+        color: Colors.white,
+      ),
+      headline5: GoogleFonts.sourceSerifPro(
+        fontSize: 20.0,
+        fontWeight: FontWeight.w400,
+        color: Colors.white,
+      ),
+      headline6: GoogleFonts.sourceSerifPro(
+        fontSize: 16.0,
+        fontWeight: FontWeight.w400,
+        color: Colors.white,
+      ),
+      bodyText1: GoogleFonts.sourceSerifPro(
+        fontSize: 14.0,
+        fontWeight: FontWeight.w400,
+        color: Colors.white,
+      ),
+      bodyText2: GoogleFonts.sourceSerifPro(
+        fontSize: 12.0,
+        fontWeight: FontWeight.w400,
+        color: Colors.white,
+      ));
 
   static ThemeData light() {
     return ThemeData(

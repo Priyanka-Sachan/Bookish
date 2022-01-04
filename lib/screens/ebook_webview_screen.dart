@@ -1,10 +1,9 @@
 import 'dart:io';
 import 'package:bookish/models/book.dart';
-import 'package:bookish/providers/book_provider.dart';
+import 'package:bookish/theme.dart';
 import 'package:bookish/widgets/download_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class EbookWebviewScreen extends StatefulWidget {
@@ -39,9 +38,7 @@ class _EbookWebviewScreenState extends State<EbookWebviewScreen> {
     super.initState();
 
     pullToRefreshController = PullToRefreshController(
-      options: PullToRefreshOptions(
-        color: Colors.blue,
-      ),
+      options: PullToRefreshOptions(),
       onRefresh: () async {
         if (Platform.isAndroid) {
           webViewController?.reload();
@@ -61,12 +58,27 @@ class _EbookWebviewScreenState extends State<EbookWebviewScreen> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: BookishTheme.light(),
       home: Scaffold(
         body: SafeArea(
           child: Column(
             children: <Widget>[
               TextField(
-                decoration: InputDecoration(prefixIcon: Icon(Icons.search)),
+                decoration: InputDecoration(
+                    prefixIcon: IconButton(
+                      icon: Icon(
+                        Icons.refresh,
+                        color: Colors.black,
+                      ),
+                      onPressed: () {
+                        webViewController?.reload();
+                      },
+                    ),
+                    suffixIcon: Icon(
+                      Icons.search,
+                      color: Colors.black,
+                    ),
+                    contentPadding: EdgeInsets.all(12)),
                 controller: urlController,
                 keyboardType: TextInputType.url,
                 onSubmitted: (value) {
@@ -203,31 +215,52 @@ class _EbookWebviewScreenState extends State<EbookWebviewScreen> {
                     progress < 1.0
                         ? LinearProgressIndicator(value: progress)
                         : Container(),
+                    Positioned(
+                      bottom: 0,
+                      left: 0,
+                      child: ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all<Color>(Colors.black),
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(16),
+                                      side: BorderSide(color: Colors.black))),
+                        ),
+                        child: Icon(
+                          Icons.arrow_back,
+                          color: Colors.white,
+                        ),
+                        onPressed: () {
+                          webViewController?.goBack();
+                        },
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 0,
+                      right: 0,
+                      child: ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all<Color>(Colors.black),
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(16),
+                                      side: BorderSide(color: Colors.black))),
+                        ),
+                        child: Icon(
+                          Icons.arrow_forward,
+                          color: Colors.white,
+                        ),
+                        onPressed: () {
+                          webViewController?.goForward();
+                        },
+                      ),
+                    ),
                   ],
                 ),
-              ),
-              ButtonBar(
-                alignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  ElevatedButton(
-                    child: Icon(Icons.arrow_back),
-                    onPressed: () {
-                      webViewController?.goBack();
-                    },
-                  ),
-                  ElevatedButton(
-                    child: Icon(Icons.arrow_forward),
-                    onPressed: () {
-                      webViewController?.goForward();
-                    },
-                  ),
-                  ElevatedButton(
-                    child: Icon(Icons.refresh),
-                    onPressed: () {
-                      webViewController?.reload();
-                    },
-                  ),
-                ],
               ),
             ],
           ),

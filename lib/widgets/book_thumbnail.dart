@@ -77,6 +77,7 @@ class BookThumbnail extends StatelessWidget {
                               .textTheme
                               .bodyText1
                               ?.copyWith(color: Colors.white),
+                          maxLines: 1,
                           softWrap: true,
                           textAlign: TextAlign.center,
                         ),

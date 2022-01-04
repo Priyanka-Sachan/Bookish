@@ -41,7 +41,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 builder: (context) => EbookWebviewScreen()),
           );
         },
-        child: Icon(Icons.lock_open_rounded),
+        child: Icon(Icons.anchor_rounded),
       ),
       body: ListView.builder(
           itemCount: genres.length,

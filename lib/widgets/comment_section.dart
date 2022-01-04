@@ -80,7 +80,7 @@ class _CommentSectionState extends State<CommentSection> {
                 : SizedBox(),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 8, bottom: 8),
+            padding: const EdgeInsets.all(8),
             child: TextFormField(
               controller: _commentController,
               minLines: 1,
@@ -92,14 +92,12 @@ class _CommentSectionState extends State<CommentSection> {
                 fillColor: Colors.white,
                 hintText: 'Comment',
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(8),
-                      bottomLeft: Radius.circular(8)),
+                  borderRadius: BorderRadius.all(Radius.circular(8)),
                 ),
                 suffixIcon: IconButton(
                   onPressed: addComment,
                   icon: Icon(
-                    Icons.arrow_forward,
+                    Icons.whatshot,
                     color: Theme.of(context).colorScheme.primary,
                   ),
                 ),

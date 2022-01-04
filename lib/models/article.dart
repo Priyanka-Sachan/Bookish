@@ -39,6 +39,8 @@ class ArticleType {
   static const editorial = 'editorial';
   static const review = 'review';
   static const upcoming = 'upcoming';
+  static const special = 'special';
+  static const story = 'story';
 }
 
 class Article {

@@ -2,6 +2,9 @@ import 'package:bookish/models/article.dart';
 import 'package:bookish/providers/articles_provider.dart';
 import 'package:bookish/widgets/editorial_card.dart';
 import 'package:bookish/widgets/review_card.dart';
+import 'package:bookish/widgets/special_card.dart';
+import 'package:bookish/widgets/story_card.dart';
+import 'package:bookish/widgets/upcoming_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -18,7 +21,6 @@ class ArticleSection extends StatelessWidget {
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       itemCount: articles.length,
-      itemExtent: MediaQuery.of(context).size.width,
       itemBuilder: (ctx, i) {
         return GestureDetector(
             onTap: () {
@@ -29,9 +31,13 @@ class ArticleSection extends StatelessWidget {
                 ? EditorialCard(article: articles[i])
                 : ((articles[i].type == ArticleType.review)
                     ? ReviewCard(article: articles[i])
-                    : (articles[i].type == ArticleType.upcoming)
-                        ? EditorialCard(article: articles[i])
-                        : SizedBox()));
+                    : ((articles[i].type == ArticleType.upcoming)
+                        ? UpcomingCard(article: articles[i])
+                        : ((articles[i].type == ArticleType.special)
+                            ? SpecialCard(article: articles[i])
+                            : ((articles[i].type == ArticleType.story)
+                                ? StoryCard(article: articles[i])
+                                : SizedBox())))));
       },
     );
   }

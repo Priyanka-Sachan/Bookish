@@ -1,103 +1,72 @@
 import 'package:bookish/models/article.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
-import '../theme.dart';
-
-class ReviewCard extends StatefulWidget {
+class ReviewCard extends StatelessWidget {
   final Article article;
-  ReviewCard({required this.article});
 
-  @override
-  _ReviewCardState createState() => _ReviewCardState();
-}
-
-class _ReviewCardState extends State<ReviewCard> {
-
-  bool _isFavorite = false;
-
-  void toggleFavourite() {
-    setState(() {
-      _isFavorite = !_isFavorite;
-    });
-  }
+  const ReviewCard({Key? key, required this.article}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(8),
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.fromLTRB(8, 8, 8, 16),
+      margin: EdgeInsets.all(8),
       decoration: BoxDecoration(
-        image: DecorationImage(
-          image: NetworkImage(
-             widget.article.backgroundImage),
-          fit: BoxFit.cover,
-          colorFilter: ColorFilter.mode(Colors.black87, BlendMode.softLight),
+        borderRadius: BorderRadius.all(
+          Radius.circular(4),
         ),
-        borderRadius: BorderRadius.all(Radius.circular(16.0)),
+        color: Theme.of(context).colorScheme.primary,
       ),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          Container(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Flexible(
-                  child: Row(children: [
-                    CircleAvatar(
-                      backgroundImage: NetworkImage(
-                          widget.article.authorImage),
-                      radius: 28,
-                    ),
-                    const SizedBox(width: 8),
-                    Flexible(
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              widget.article.message,
-                              style: BookishTheme.darkTextTheme.headline5,
-                              overflow:TextOverflow.ellipsis,
-                            ),
-                            Text(
-                              widget.article.authorName,
-                              style: BookishTheme.darkTextTheme.bodyText1,
-                            )
-                          ]),
-                    ),
-                  ]),
-                ),
-                IconButton(
-                  icon: Icon(
-                      _isFavorite ? Icons.favorite : Icons.favorite_border),
-                  iconSize: 30,
-                  color: _isFavorite ? Colors.red[400] : Colors.grey[400],
-                  onPressed: toggleFavourite,
-                ),
-              ],
+          ClipRRect(
+            borderRadius: BorderRadius.circular(4.0),
+            child: Image.network(
+              article.backgroundImage,
+              fit: BoxFit.cover,
             ),
           ),
-          Expanded(
-            child: Stack(children: [
-              Positioned(
-                bottom: 16,
-                right: 16,
-                child: Text(
-                  widget.article.title,
-                  style: BookishTheme.darkTextTheme.headline3,
-                ),
+          Text(
+            article.title,
+            style: Theme.of(context)
+                .textTheme
+                .headline5
+                ?.copyWith(color: Colors.black),
+            softWrap: true,
+            textAlign: TextAlign.center,
+            maxLines: 2,
+            overflow: TextOverflow.fade,
+          ),
+          Wrap(
+            children: [
+              Text(
+                DateFormat.yMMMd().format(article.timeStamp).toUpperCase(),
+                style: Theme.of(context)
+                    .textTheme
+                    .headline6
+                    ?.copyWith(color: Colors.white),
               ),
-              Positioned(
-                bottom: 64,
-                left: 16,
-                child: RotatedBox(
-                  quarterTurns: 3,
-                  child: Text(
-                    widget.article.type,
-                    style: BookishTheme.darkTextTheme.headline3,
-                  ),
-                ),
+              Text(
+                ' BY ',
+                style: Theme.of(context)
+                    .textTheme
+                    .headline6
+                    ?.copyWith(color: Colors.white60),
               ),
-            ]),
+              Text(
+                article.authorName.toUpperCase(),
+                style: Theme.of(context)
+                    .textTheme
+                    .headline6
+                    ?.copyWith(color: Colors.white),
+                softWrap: true,
+                textAlign: TextAlign.center,
+                maxLines: 1,
+                overflow: TextOverflow.fade,
+              )
+            ],
           ),
         ],
       ),

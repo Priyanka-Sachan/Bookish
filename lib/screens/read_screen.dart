@@ -27,10 +27,15 @@ class ReadScreen extends StatelessWidget {
             if (snapshot.connectionState == ConnectionState.active) {
               final books = snapshot.data ?? [];
               if (books.isEmpty) {
-                return Column(children: [
-                  Image.asset('assets/images/add_article.png'),
-                  Text('No books here...')
-                ]);
+                return Center(
+                  child: Column(children: [
+                    Image.asset('assets/images/add_article.png'),
+                    Text(
+                      'No books here...',
+                      style: Theme.of(context).textTheme.headline5,
+                    )
+                  ]),
+                );
               } else {
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12.0),

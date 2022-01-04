@@ -94,11 +94,11 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                   maxLines: 1,
                   textAlign: TextAlign.center,
                 ),
-                ...widget.book.languages.map((l) => Text(' ${l.toUpperCase()}',
+                Text(' ${widget.book.languages.join(' ').toUpperCase()}',
                     style: Theme.of(context).textTheme.bodyText1?.copyWith(
                           color: Theme.of(context).colorScheme.primary,
                         ),
-                    textAlign: TextAlign.center)),
+                    textAlign: TextAlign.center),
                 Wrap(
                   spacing: 4,
                   alignment: WrapAlignment.center,

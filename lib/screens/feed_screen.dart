@@ -27,7 +27,7 @@ class FeedScreen extends StatelessWidget {
                   'What will you read today ?',
                   style: Theme.of(context)
                       .textTheme
-                      .headline3
+                      .headline2
                       ?.copyWith(color: Colors.grey),
                 ),
               ],
