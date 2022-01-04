@@ -10,6 +10,11 @@ import 'package:logging/logging.dart';
 import 'package:provider/provider.dart';
 import 'database/database_helper.dart';
 import 'navigation/app_router.dart';
+import 'dart:async';
+import 'dart:io';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+
+import 'navigation/navigation_service.dart';
 
 Future<void> main() async {
   _setupLogging();
@@ -21,7 +26,11 @@ Future<void> main() async {
   yourArticlesProvider.init(dbHelper);
   final bookProvider = BookProvider();
   bookProvider.init(dbHelper);
-  runApp(BookishApp(yourArticleProvider: yourArticlesProvider,bookProvider:bookProvider));
+  if (Platform.isAndroid) {
+    await AndroidInAppWebViewController.setWebContentsDebuggingEnabled(true);
+  }
+  runApp(BookishApp(
+      yourArticleProvider: yourArticlesProvider, bookProvider: bookProvider));
 }
 
 void _setupLogging() {
@@ -35,7 +44,8 @@ class BookishApp extends StatefulWidget {
   final YourArticlesProvider yourArticleProvider;
   final BookProvider bookProvider;
 
-  const BookishApp({Key? key, required this.yourArticleProvider,required this.bookProvider})
+  const BookishApp(
+      {Key? key, required this.yourArticleProvider, required this.bookProvider})
       : super(key: key);
 
   @override
@@ -81,6 +91,7 @@ class _BookishAppState extends State<BookishApp> {
         else
           theme = BookishTheme.light();
         return MaterialApp(
+          navigatorKey: NavigationService.navigatorKey,
           theme: theme,
           title: 'Bookish',
           home: Router(

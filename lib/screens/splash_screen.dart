@@ -1,6 +1,5 @@
 import 'package:bookish/models/bookish_pages.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class SplashScreen extends StatefulWidget {
   static MaterialPage page() {
@@ -27,8 +26,8 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SvgPicture.asset(
-              'assets/images/splash_screen_logo.svg',
+            Image.asset(
+              'assets/images/splash_screen_logo.png',
               width: MediaQuery.of(context).size.width - 32,
               fit: BoxFit.cover,
             ),

@@ -159,7 +159,6 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                                           'https://i.pinimg.com/736x/a6/50/cd/a650cdc389e72a5213be5f05a8fcd9db.jpg',
                                       title: widget.book.title,
                                       author: author,
-                                      subjects: widget.book.subjects,
                                       bookShelves: widget.book.bookshelves,
                                       path: ''),
                                   url: widget.book

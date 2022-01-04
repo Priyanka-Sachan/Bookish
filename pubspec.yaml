@@ -25,7 +25,6 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^1.0.2
   google_fonts: ^2.1.0
-  flutter_svg: ^1.0.0
   provider: ^6.0.0
   intl: ^0.17.0
   uuid: ^3.0.4
@@ -47,6 +46,8 @@ dependencies:
   firebase_storage: ^10.2.0
   dio: ^4.0.4
   epub_viewer: 0.2.4
+  flutter_inappwebview: ^5.3.2
+  url_launcher: ^6.0.17
 
 dev_dependencies:
   flutter_test:

@@ -1,8 +1,6 @@
 import 'package:bookish/models/bookish_pages.dart';
 import 'package:bookish/providers/app_state_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -73,11 +71,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       controller: controller,
       children: [
         onboardPageView(
-          'assets/images/os1.svg',
+          'assets/images/os1.png',
           'Check out weekly recommended books and what your friends are reading!',
         ),
         onboardPageView(
-          'assets/images/os2.svg',
+          'assets/images/os2.png',
           'Read with comfort of mobile and feeling of home!',
         ),
         onboardPageView(
@@ -88,7 +86,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     );
   }
 
-  Widget onboardPageView(String svgAsset, String text) {
+  Widget onboardPageView(String pngAsset, String text) {
     return Padding(
       padding: const EdgeInsets.all(40),
       child: Column(
@@ -96,8 +94,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Expanded(
-            child: SvgPicture.asset(
-              svgAsset,
+            child: Image.asset(
+              pngAsset,
               fit: BoxFit.fitWidth,
             ),
           ),
