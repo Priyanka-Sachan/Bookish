@@ -8,26 +8,28 @@ A new Flutter project for book lovers.
 <div margin= auto> 
   <img src="screenshots/login.jpeg"  width=20%>
   <img src="screenshots/onboarding-1.jpeg"  width=20%>
-   <img src="screenshots/onboarding-2.jpeg"  width=20%>
-   <img src="screenshots/onboarding-3.jpeg"  width=20%>
+  <img src="screenshots/onboarding-2.jpeg"  width=20%>
+  <img src="screenshots/onboarding-3.jpeg"  width=20%>
 </div>
 
 ### Feed
 <div margin= auto> 
-  <img src="screenshots/feed.gif"  width=20%>
+  <img src="screenshots/feed.gif" >
+</div>
+<div margin= auto> 
+  <img src="screenshots/feed-1.jpeg"  width=20%>
   <img src="screenshots/feed-2.jpeg"  width=20%>
-   <img src="screenshots/feed-3.jpeg"  width=20%>
-   <img src="screenshots/feed-4.jpeg"  width=20%>
+  <img src="screenshots/feed-3.jpeg"  width=20%>
 </div>
 
 ### Explore
 <div margin= auto> 
   <img src="screenshots/explore-1.jpeg"  width=20%>
-   <img src="screenshots/explore-2.jpeg"  width=20%>
-   <img src="screenshots/explore-3.jpeg"  width=20%>
-   <img src="screenshots/explore-4.jpeg"  width=20%>
-   <img src="screenshots/explore-5.jpeg"  width=20%>
-   <img src="screenshots/explore-6.jpeg"  width=20%>
+  <img src="screenshots/explore-2.jpeg"  width=20%>
+  <img src="screenshots/explore-3.jpeg"  width=20%>
+  <img src="screenshots/explore-4.jpeg"  width=20%>
+  <img src="screenshots/explore-5.jpeg"  width=20%>
+  <img src="screenshots/explore-6.jpeg"  width=20%>
 </div>
 
 ### Read
